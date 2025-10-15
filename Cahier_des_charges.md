@@ -14,8 +14,10 @@ Date de fin prévue : 27/11/2025
 
 # - 1. Contexte et objectifs
 
-• Problématique à résoudre : 
-• Objectif général : 
-• Public cible / utilisateurs : 
+• Problématique à résoudre : Créer un logiciel utilisant la programmation orientée objet
+• Objectif général : Créer un simulateur de gestion d'entreprise avec interface graphique, a titre humoristique
+• Public cible / utilisateurs : Personnes voulant simuler une entreprise de manière non réaliste, a titre de divertissement. 
 
 # - 2. Fonctionnalités attendues
+
+• 
