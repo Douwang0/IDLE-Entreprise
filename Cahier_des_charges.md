@@ -1,7 +1,7 @@
 
 # - Historique des modifications -
 
-...
+Charles - Ajout des parties 3, 4, 5, 6
 
 # - En-Tête -
 
@@ -29,3 +29,26 @@ Date de fin prévue : 27/11/2025
 • Gérer une ligne de production au plus efficace
 • Gérer une chaîne d'employer
 • Faire de l'argent
+
+# 3 - Architecture technique
+Langage : Python 3.14
+Paradigme : POO
+Bibliothèques : PySimpleGUI
+
+# 4 - Schéma de classes (UML simplifié)
+Inclure : classes principales, attributs, méthodes, relations.
+
+# 5 -  Planning prévisionnel
+Semaine | Étape | Tâches | Responsable(s)
+1 | Idéation | Choix du thème | Équipe
+2 | Conception | Schéma de classes | Dev POO
+3 | Dev 1 | Implémentation | Dev POO
+4 | Persistance & IHM | Sauvegarde / Interface | Dev Persistance / Interface
+5 | Tests & Intégration | Débogage | Dev Tests
+6 | Doc & Présentation | Rapport | Équipe
+
+# 6 - Critères de réussite
+• Application fonctionnelle
+• Bonne utilisation de la POO
+• Données sauvegardées
+• Code clair et documenté
