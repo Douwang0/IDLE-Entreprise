@@ -8,5 +8,5 @@
 ## Evan
 + Conception graphique (avec Lylian)
 
-# Lylian
+## Lylian
 + Conception graphique (avec Evan)

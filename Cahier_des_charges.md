@@ -24,11 +24,11 @@ Date de fin prévue : 27/11/2025
 
 # - 2. Fonctionnalités attendues
 
-• Faire de la rétention de dopamine
-• Appuyer sur un bouton
-• Gérer une ligne de production au plus efficace
-• Gérer une chaîne d'employer
-• Faire de l'argent
+• Employer des vendeur
+• 
+
+A REFAIRE
+
 
 # 3 - Architecture technique
 Langage : Python 3.14
