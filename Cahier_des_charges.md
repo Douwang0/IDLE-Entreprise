@@ -1,6 +1,7 @@
 
 # - Historique des modifications -
 
+- 06/11/2025
 Charles - Ajout des parties 3, 4, 5, 6
 
 # - En-Tête -
@@ -33,7 +34,7 @@ Date de fin prévue : 27/11/2025
 # 3 - Architecture technique
 Langage : Python 3.14
 Paradigme : POO
-Bibliothèques : PySimpleGUI
+Bibliothèques : CustomTkinter
 
 # 4 - Schéma de classes (UML simplifié)
 Inclure : classes principales, attributs, méthodes, relations.
