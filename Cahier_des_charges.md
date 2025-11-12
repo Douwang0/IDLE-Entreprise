@@ -150,7 +150,7 @@ L’application est un jeu de gestion humoristique reposant sur un système de j
 # 3 - Architecture technique
 Langage : Python 3.14
 Paradigme : POO
-Bibliothèques : CustomTkinter
+Bibliothèques : CustomTkinter, random
 
 # 4 - Schéma de classes (UML simplifié)
 Inclure : classes principales, attributs, méthodes, relations.
