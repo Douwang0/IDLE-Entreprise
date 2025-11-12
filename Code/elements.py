@@ -1,11 +1,15 @@
+from random import *
 from player import Player
+
 class Element:
-    def __init__(self,player : Player):
+    def __init__(self,player : Player,valeur):
         self.price = None # modify with randomifiers later
         self.qty = 0
         self.player = player
+        self.marche = random()
     def update(self):
-        self.price_change
+        pass
+        # self.price
     def sell(self,nbr):
         """
         Sells nbr of elements, return false if not enough elements
@@ -20,7 +24,7 @@ class Element:
         if self.player.msub(nbr*self.price):
             self.qty += nbr
     def price_change(self):
-        pass # self.price += r.random(-1,1)
+        pass
 
 class Share(Element):
     def __init__(self):
