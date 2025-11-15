@@ -1,4 +1,4 @@
-from random import *
+import random as rand
 from player import Player
 
 class Element:
@@ -6,7 +6,7 @@ class Element:
         self.price = None # modify with randomifiers later
         self.qty = 0
         self.player = player
-        self.marche = random()
+        self.marche = rand.random()
     def update(self):
         pass
         # self.price

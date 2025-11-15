@@ -9,7 +9,7 @@ class Employes():
         self.augment = 10
     def buy(self, nbr):
         if self.qty == 10 ^ self.augment :
-            price *= 5
+            self.price *= 5
             self.augmentation()
         elif self.player.msub(self.price + 1.05 ^ nbr) and nbr + self.qty <= self.augment:
             self.qty += nbr
