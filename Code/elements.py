@@ -1,15 +1,17 @@
-import random as rand
+from random import *
 from player import Player
+from courbe  import *
 
 class Element:
     def __init__(self,player : Player,valeur):
         self.price = None # modify with randomifiers later
         self.qty = 0
         self.player = player
-        self.marche = rand.random()
+        self.courbe = Courbe()
+        self.valeur = valeur
     def update(self):
-        pass
-        # self.price
+        self.courbe.update()
+        self.price = self.valeur * self.courbe.getvar() * 2
     def sell(self,nbr):
         """
         Sells nbr of elements, return false if not enough elements
