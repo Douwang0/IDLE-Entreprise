@@ -14,3 +14,5 @@ class Courbe:
         else:
             self.var *= (rand.randint(1, 5) / 100) * self.evolution
             self.event -= 1
+    def getvar(self):
+        return self.var
