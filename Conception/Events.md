@@ -39,45 +39,47 @@ Les gilets jaunes font leur retours : le prix de l'essence augmente
 -> ne fait rien pour le joueur 
 
 Vous découvrez la théorie de l'internet mort 
+-> débloque l'event "Vous publiez un article sur cette théorie et devenez connus"
 Vous publiez un article sur cette théorie et devenez connus
 -> débloque l'event "votre femme revient"
 Votre femme revient : regagnez ce que vous avez perdu 
-Vous créez une IA 
+-> débloque l'event "Vous créez une IA pour mettre de la vie sur internet"
+Vous créez une IA pour mettre de la vie sur internet
+-> débloque l'event "L'IA contrôle internet"
 l'IA contrôle internet : +13% de parts de marchées 
 
-Vous etes de bonne humeur aujourd'hui, baisse du prix des employes (-10% du prix des employes)
+Vous êtes de bonne humeur aujourd'hui, baisse du prix des employés (-10% du prix des employes)
 
-Control fiscal (-50% stock des items)
+Contrôle fiscal (-50% stock des items)
 
-La machine a boisson du groupe "ice team" a cessé de fonctionné (baisse de production des empoyées de 7%)
+La machine a boisson du groupe "ice team" a cessé de fonctionné (baisse de production des empoyés de 7%) pendant 3 jours
 
-Vous avez trop dormi, les employer sont parti (-10% du nombre d'employé)
+Vous avez trop dormi, les employés sont partis (-10% du nombre d'employé)
 
 Il pleut.
 
-Vous étès sur la liste d'epstein.
+Vous êtes sur la liste d'epstein.
 
-Livraison d'ice tea (5% prod employé)
+Livraison d'ice tea (5% prod employé) Pendant 3 jours 
 
-Votre fils est con, payez pour les cours particulies (-10% argent)
+Votre fils est con, payez pour les cours particuliés (-10% argent)
 
 Vous passez par la case depart (+200eur)
 
-6 Millions ca parait un peut trop non ? (+271%)
-
 Vous volez la carte vitale d'un employé (+2,50 eur)
 
-Un employé lache une caisse, il faut la réparer (-75% agrent global)
+Un employé lâche une caisse, il faut la réparer (-75% argent global)
 
-Vous adoptez un chat (-100% impots)
+Vous adoptez un chat (-50% impots)
 
-Votre chat perd une de ses vie, il en reste encore beaucoup... (+1% impot)
+Votre chat perd une de ses vie, il en reste encore beaucoup... (+4% impot)
 
-Vos employés puent, les actionnaires sont désinteressées (-10% actions)
+Vos employés puent, les actionnaires sont désinteressés (-10% actions) pour la journée.
 
 Votre femme vous a trompé, elle prend les enfants et 50% de vos biens, vous devez maintenant payer la pension alimentaire jusqua votre mort. (-50% tout, -10% argents par jour)
 debloque "votre femme revient"
 
 "EEESSSEEEFEEERRR", sfr ne founit plus internet.
+-> Nous ne sommes pas chez sfr
 
 Pix devient incontournable
