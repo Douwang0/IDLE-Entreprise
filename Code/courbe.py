@@ -5,6 +5,7 @@ class Courbe:
         self.var = rand.randint(0, 1)
         self.event = 0
         self.evolution = 0
+        self.chance = 0
     def eventcourbe(self):
         self.event = rand.randint(3, 6)
         self.evolution = rand.randint(-1, 1)

@@ -17,7 +17,7 @@ class Game:
         }
     def update(self):
         self.tick += 1
-        if self.tick >= self.daylenth:
+        if  self.tick >= self.daylenth:
             self.tick = 0
             self.day += 1
             # appeler game pause interface
