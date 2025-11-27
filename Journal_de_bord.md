@@ -10,3 +10,10 @@
 
 ## Lylian
 + Conception graphique (avec Evan)
+
+# Semaine 2
+
+## Charles
++ Réaggencement de l'organisation de l'interface
++ Ajout de bases pour des fonctions futures d'échanges d'onglet
++ Mise en place de l'écran titre (à finir pour la prochaine séance)
