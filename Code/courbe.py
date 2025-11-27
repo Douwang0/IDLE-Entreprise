@@ -8,7 +8,7 @@ class Courbe:
         self.chance = 0
     def eventcourbe(self):
         self.event = rand.randint(3, 6)
-        self.evolution = rand.randint(-1, 1)
+        self.evolution = rand.choices([-1,1], [100 - self.chance, 100 + self.chance])
     def update(self):
         if self.event == 0 :
             self.eventcourbe()
