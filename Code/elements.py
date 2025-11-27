@@ -4,7 +4,7 @@ from courbe  import *
 
 class Element:
     def __init__(self,player : Player,valeur):
-        self.price = None # modify with randomifiers later
+        self.price = valeur
         self.qty = 0
         self.player = player
         self.courbe = Courbe()
