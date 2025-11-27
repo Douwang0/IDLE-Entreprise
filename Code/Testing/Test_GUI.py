@@ -29,7 +29,7 @@ class UserInterface(ctk.CTk):
         def add_screen(self):
 
             """
-            
+            Ajout de l'écran titre à l'écran. Efface l'interface actuelle avant.
             """
             
             for widget in self.title_screen_frame.winfo_children(): widget.destroy()
@@ -59,6 +59,10 @@ class UserInterface(ctk.CTk):
             self.side_bar.place(relx= 0, rely=0, anchor="nw")
             self.side_bar.grid(row=0, column=0, padx=10, pady=(10,10), sticky="nsw")
 
+            self.current_tab : int = 0
+
+            self.side_bar_setup()
+
             # Setup de la barre d'événements
             self.event_bar = ctk.CTkFrame(self.master, width=1600, height=110, fg_color="gray")
             self.event_bar.place(relx= 1, rely=0, anchor="sw")
@@ -69,13 +73,8 @@ class UserInterface(ctk.CTk):
             self.main_frame.place(relx= 0.15, rely=0.8, anchor="sw")
             self.main_frame.grid(row=0, column=0, padx=10, pady=(10,0), sticky="ne")
         
-        def clear_current_tab(self):
-
-            """
-            Supprime tous les widgets présents sur la frame principal.
-            """
-
-            for widget in self.main_frame.winfo_children(): widget.destroy()
+        def side_bar_setup(self, ):
+            ...
 
         def switch_tab(self, new_tab : int) -> None:
 
@@ -88,17 +87,20 @@ class UserInterface(ctk.CTk):
 
             def setup_stats():
                 print("Switched to Stats Frame.")
+                self.current_tab = 0
             
             def setup_element():
                 print("Switched to Element Frame.")
+                self.current_tab = 1
             
             def setup_generator():
                 print("Switched to Generator Frame.")
+                self.current_tab = 2
 
             assert isinstance(new_tab, int), f'ValueError : {new_tab} a été donnée pour <new_tab : int> dans <UserInterface.GameScreen.switch_tab()>.'
             assert self.main_frame == None, f'ValueError : <self.main_frame> a None pour valeur dans <UserInterface.GameScreen.switch_tab()>.'
 
-            self.clear_current_tab()
+            self.master.clear_current_tab()
             match new_tab:
                 case 0: setup_stats()
                 case 1: setup_element()
@@ -125,6 +127,14 @@ class UserInterface(ctk.CTk):
 
         self.update()
         self.mainloop()
+
+    def clear_current_tab(self):
+
+        """
+        Supprime tous les widgets présents sur la frame principal.
+        """
+
+        for widget in self.winfo_children(): widget.destroy()
 
     def switch_to_gameplay(self):
 
