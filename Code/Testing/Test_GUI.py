@@ -27,14 +27,21 @@ class UserInterface(ctk.CTk):
             self.add_screen()
 
         def add_screen(self):
+
+            """
+            
+            """
             
             for widget in self.title_screen_frame.winfo_children(): widget.destroy()
 
             title = ctk.CTkLabel(self.title_screen_frame, text="Far From Bankruptcy™",width=256, height=64, corner_radius=16, font=("Arial", 64))
             title.place(relx=0.5, rely=0.45, anchor="center")
 
-            start_btn = ctk.CTkButton(self.title_screen_frame, text="Start Game", width=256, height=64, fg_color="red", bg_color="red", hover_color="#8b0000", font=("Arial", 16))
+            start_btn = ctk.CTkButton(self.title_screen_frame, command=lambda : self.master.switch_to_gameplay(), text="Start Game", width=256, height=64, fg_color="red", bg_color="red", hover_color="#8b0000", font=("Arial", 16))
             start_btn.place(relx=0.5, rely=0.55, anchor="center")
+        
+        def clear_title_screen(self):
+            for widget in self.title_screen_frame.winfo_children(): widget.destroy()
 
     class GameScreen:
 
@@ -63,7 +70,7 @@ class UserInterface(ctk.CTk):
             self.main_frame.grid(row=0, column=0, padx=10, pady=(10,0), sticky="ne")
         
         def clear_current_tab(self):
-            
+
             """
             Supprime tous les widgets présents sur la frame principal.
             """
@@ -112,12 +119,22 @@ class UserInterface(ctk.CTk):
         # Inititalisation écran titre
         self.title_screen = self.TitleScreen(self)
         # Inititalisation écran de jeu
-        # self.game_screen = self.GameScreen(self)
+        self.game_screen = None
 
         self.game_update(lambda : print("TICK"))
 
         self.update()
         self.mainloop()
+
+    def switch_to_gameplay(self):
+
+        """
+        Fonction faisant la transition entre l'écran titre et l'écran de jeu.
+        """
+
+        self.title_screen.clear_title_screen()
+        self.game_screen = self.GameScreen(self)
+
     
     def game_update(self, update_func):
         update_func()
