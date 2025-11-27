@@ -17,3 +17,6 @@
 + Réaggencement de l'organisation de l'interface
 + Ajout de bases pour des fonctions futures d'échanges d'onglet
 + Mise en place de l'écran titre (à finir pour la prochaine séance)
+
+## Evan
++ Création de la maquette de l'interface
