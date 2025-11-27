@@ -21,7 +21,7 @@ Creation des classes du jeu ainsi que de la logique primaire, aide pour la creat
 Gestion de l'aleatoire + redaction des event
 
 ## Evan
-Finitions des maquettes de jeu
++ Création de la maquette de l'interface
 
 ## Charles
 Bases de l'interface graphique tkintercustom
@@ -43,4 +43,5 @@ Finition de la classe Courbe
 Commencement de la classe Event 
 
 ## Evan
-+ Création de la maquette de l'interface
++ Finalisation de la maquette de l'interface
++ Croquis des icônes des générateurs
