@@ -37,5 +37,10 @@ Bases de l'interface graphique tkintercustom
 Amelioration d'element
 Systeme de courbe pour l'utilisation du random dans l'element
 
+## Lylian 
+
+Finition de la classe Courbe
+Commencement de la classe Event 
+
 ## Evan
 + Création de la maquette de l'interface
