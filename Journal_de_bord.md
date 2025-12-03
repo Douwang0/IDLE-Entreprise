@@ -51,9 +51,11 @@
 
 # Semaine 4
 
-
 ## Charles
 + Mise en place du changement d'onglets
+
+## Evan
++ Création de concepts de plusieurs objets
 
 ## Lylian
 + Ajout d'événements
