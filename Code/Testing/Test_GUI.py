@@ -55,18 +55,18 @@ class UserInterface(ctk.CTk):
             self.master = master
 
             # Setup de la side bar
-            self.side_bar = ctk.CTkFrame(self.master, width=300, height=1080, fg_color="#272533")
-            self.side_bar.place(relx= 0, rely=0, anchor="nw")
+            self.side_bar = ctk.CTkFrame(self.master, fg_color="#272533")
+            self.side_bar.place(relx= 0, rely=0, relwidth=1.0, relheight=1.0, anchor="w")
             self.side_bar.grid(row=0, column=0, padx=10, pady=(10,10), sticky="nsw")
 
             # Setup de la barre d'événements
-            self.event_bar = ctk.CTkFrame(self.master, width=1600, height=110, fg_color="#3B553C")
-            self.event_bar.place(relx= 1, rely=0, anchor="sw")
+            self.event_bar = ctk.CTkFrame(self.master, fg_color="#3B553C")
+            self.event_bar.place(relx= 1, rely=0, relwidth=1.0, relheight=1.0, anchor="sw")
             self.event_bar.grid(row=0, column=0, padx=10, pady=(0,10), sticky="se")
 
             # Setup de la frame de l'accueil
-            self.main_frame = ctk.CTkFrame(self.master, width=1600, height=1100, fg_color="#333B46")
-            self.main_frame.place(relx= 0.15, rely=0.8, anchor="sw")
+            self.main_frame = ctk.CTkFrame(self.master, fg_color="#333B46")
+            self.main_frame.place(relx= 0.15, rely=0.8, relwidth=1.0, relheight=1.0, anchor="sw")
             self.main_frame.grid(row=0, column=0, padx=10, pady=(10,0), sticky="ne")
 
             # Mise en place des tabs
@@ -87,7 +87,7 @@ class UserInterface(ctk.CTk):
 
             if self.current_tab == new_tab : return
 
-            def update_tab_buttons(new_tab : int):
+            def update_tab_buttons():
 
                 for widget in self.side_bar.winfo_children(): widget.destroy()
                 
@@ -124,7 +124,7 @@ class UserInterface(ctk.CTk):
                 case 1: setup_element()
                 case 2: setup_generator()
 
-            update_tab_buttons(new_tab)
+            update_tab_buttons()
 
     def __init__(self) -> None:
 
@@ -143,7 +143,7 @@ class UserInterface(ctk.CTk):
         # Inititalisation écran de jeu
         self.game_screen = None
 
-        self.game_update(lambda : print("TICK"))
+        self.game_update(lambda : print('Tick...'))
 
         self.update()
         self.mainloop()
