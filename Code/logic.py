@@ -39,14 +39,17 @@ class Game:
         }
         self.share = {
         }
+        self.allitems = self.elements.items() + self.upgrades.items() + self.share.items() + [self.kayou]
+        self.allIterable = self.allitems # + [self.event]
     def update(self):
         self.tick += 1
         if  self.tick >= self.daylenth:
             self.tick = 0
             self.day += 1
+            self.
             # appeler game pause interface
         self.mps = self.player.mget()
-        for item in self.elements.items() + self.upgrades.items() + self.share.items() + [self.kayou]: # + [self.event]
+        for item in self.allIterable:
             item.update()
         self.mps = self.player.mget() - self.mps
         # End
