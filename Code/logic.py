@@ -35,14 +35,36 @@ class Game:
         self.quota = 10000
         # self.event = Eventmanagement()
         self.elements = {
-            
+            "stylo" : Element(self.player,5),
+            "Bouteille" : Element(self.player,20),
+            "Chaise" : Element(self.player,50),
+            "Chaise (Sophistiquée)" : Element(self.player,800),
+            "Samsung 2TM" : Element(self.player,500),
+            "Ordinateur Fixe" : Element(self.player,4000),
+            "Ordinateur Portatif" : Element(self.player,1500),
+            "Ordinateur Quantique" : Element(self.player,3.2),
+            "camionnnn" : Element(self.player,200000),
+            "voiture (Sophistiquée)" : Element(self.player,500000),
+            "Maison" : Element(self.player,800000),
+            "The legend of Zelda Souvenir d'Enfance - Matthieu Meriot" : Element(self.player,5),
+            "Planètes": Element(self.player, 1e8),
+            "gachettes pour manettes": Element(self.player, 36),
+            'des touches "cap lock"': Element(self.player, 280),
+            "de pixel": Element(self.player, 700000),
+            "éléments de surprise": Element(self.player, 8e10),
+            "Mona Lisa": Element(self.player, 16),
+            "la lettre alpha": Element(self.player, 1200),
+            "cheveux de Frida Kaloh": Element(self.player, 98000),
+            "iphon XX": Element(self.player, 2.5),
+            "chemise de Charles": Chemise(self.player, "tres cher"),
+            "boeing 732": Element(self.player, 70000),
+            "être humain de droite": Element(self.player, 12000),
+            "La chaine Vilbrequin": Element(self.player, 5000000)
         }
         self.upgrades = {
             "employes" : Employes()
         }
-        self.share = {
-        }
-        self.allcollectebles = self.elements.items() + self.upgrades.items() + self.share.items() + [self.kayou]
+        self.allcollectebles = self.elements.items() + self.upgrades.items() + [self.kayou]
         self.allIterable = self.allcollectebles # + [self.event]
     def update(self):
         self.tick += 1
