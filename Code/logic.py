@@ -27,10 +27,11 @@ class Game:
         self.tick = 0
         self.day = 0
         self.daylenth = 5
-        self.player = Player()
+        self.player = Player(self)
         self.kayou = Kayou(self.player,0.1)
         self.mps = 0
         self.impots = 0
+        self.benefices_journee = 0
         # self.event = Eventmanagement()
         self.elements = {
         }
@@ -39,24 +40,20 @@ class Game:
         }
         self.share = {
         }
-        self.allitems = self.elements.items() + self.upgrades.items() + self.share.items() + [self.kayou]
-        self.allIterable = self.allitems # + [self.event]
+        self.allcollectebles = self.elements.items() + self.upgrades.items() + self.share.items() + [self.kayou]
+        self.allIterable = self.allcollectebles # + [self.event]
     def update(self):
         self.tick += 1
-        if  self.tick >= self.daylenth:
-            self.tick = 0
-            self.day += 1
-            self.
-            # appeler game pause interface
         self.mps = self.player.mget()
         for item in self.allIterable:
             item.update()
         self.mps = self.player.mget() - self.mps
         # End
+        if  self.tick >= self.daylenth:
+            self.new_day()
         if self.player.mget() < 0:
             highscore(self.day)
             # appeller game end interface
-            pass
     def buy(self,id,type):
         match type:
             case "kayou":
@@ -70,10 +67,18 @@ class Game:
     def sell(self,id,type):
         match type:
             case "kayou":
-                self.kayou.sell()
+                return self.kayou.sell()
             case "element":
-                self.elements[id].sell()
+                return self.elements[id].sell()
             case "upgrade":
-                self.elements[id].sell()
+                return self.elements[id].sell()
             case "share":
-                self.share[id].sell()
+                return self.share[id].sell()
+    def new_day(self):
+            self.tick = 0
+            impots = (self.benefices_journee * self.impots) if self.benefices_journee > 0 else 0
+            self.player.msub(impots,True)
+            self.day += 1
+            self.impots += 0.01
+            # appeler game pause interface
+        

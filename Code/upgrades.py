@@ -23,3 +23,5 @@ class Employes():
         if self.player.msub(self.price):
             self.bonus *= 5
             self.augment *= 10
+
+# LYLIAN AJOUTE AU BENEFICES

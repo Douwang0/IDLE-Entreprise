@@ -59,3 +59,15 @@
 
 ## Lylian
 + Ajout d'événements
+
+## Giulian
++ Ajout de la persistance avec un systeme de highscore
++ Base des impots
++ Methode d'achat/vente
+
+# Semaine 5
+
+## Giulian
++ Benefices
++ Impots fin de journée
++ msub force pour fin de game
