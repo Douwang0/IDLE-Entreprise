@@ -2,7 +2,6 @@ from player import Player
 from elements import *
 from upgrades import *
 from courbe import Courbe
-import os
 
 def highscore(new_score = 0, filename="highscore.txt"):
     """
@@ -30,10 +29,13 @@ class Game:
         self.player = Player(self)
         self.kayou = Kayou(self.player,0.1)
         self.mps = 0
-        self.impots = 0
+        self.impots = 0.01
         self.benefices_journee = 0
+        self.benefice_hier = 0
+        self.quota = 10000
         # self.event = Eventmanagement()
         self.elements = {
+            
         }
         self.upgrades = {
             "employes" : Employes()
@@ -54,31 +56,34 @@ class Game:
         if self.player.mget() < 0:
             highscore(self.day)
             # appeller game end interface
-    def buy(self,id,type):
+    def buy(self,id,type,nbr = 1):
         match type:
             case "kayou":
                 self.kayou.buy()
             case "element":
-                self.elements[id].buy()
+                self.elements[id].buy(nbr)
             case "upgrade":
-                self.elements[id].buy()
+                self.elements[id].buy(nbr)
             case "share":
-                self.share[id].buy()
-    def sell(self,id,type):
+                self.share[id].buy(nbr)
+    def sell(self,id,type,nbr = 1):
         match type:
             case "kayou":
-                return self.kayou.sell()
+                return self.kayou.sell(nbr)
             case "element":
-                return self.elements[id].sell()
+                return self.elements[id].sell(nbr)
             case "upgrade":
-                return self.elements[id].sell()
+                return self.elements[id].sell(nbr)
             case "share":
-                return self.share[id].sell()
+                return self.share[id].sell(nbr)
     def new_day(self):
             self.tick = 0
             impots = (self.benefices_journee * self.impots) if self.benefices_journee > 0 else 0
+            self.benefice_hier = self.benefices_journee
+            self.benefices_journee = 0
             self.player.msub(impots,True)
+            self.player.msub(self.quota*self.impots,True)
             self.day += 1
-            self.impots += 0.01
+            self.impots *= 1.05
             # appeler game pause interface
         
