@@ -50,33 +50,72 @@ class UserInterface(ctk.CTk):
         Architecture en cours...
         """
 
+        class Tab_Stats:
+
+            class Graphs:
+
+                def __init__(self) -> None:
+                    pass
+            
+            def __init__(self):
+                pass
+
+        class Tab_Elements:
+
+            class Object:
+
+                def __init__(self) -> None:
+                    pass
+            
+            def __init__(self):
+                pass
+        
+        class Tab_Generator:
+
+            class Field:
+
+                def __init__(self) -> None:
+                    pass
+            
+            def __init__(self):
+                pass
+
         def __init__(self, master) -> None:
             
+            # Référence au widget principal
             self.master = master
 
+            self.is_event_on : bool = False
+
+        
+        def start_game(self):
+
             # Setup de la side bar
-            self.side_bar = ctk.CTkFrame(self.master, fg_color="#272533")
-            self.side_bar.place(relx= 0, rely=0, relwidth=1.0, relheight=1.0, anchor="w")
+            self.side_bar = ctk.CTkFrame(self.master, fg_color="#272533", width=self.master.get_rel_width(300.0), height=self.master.get_rel_height(1080.0))
+            self.side_bar.place(relx= 0, rely=0, anchor="nw")
             self.side_bar.grid(row=0, column=0, padx=10, pady=(10,10), sticky="nsw")
 
-            # Setup de la barre d'événements
-            self.event_bar = ctk.CTkFrame(self.master, fg_color="#3B553C")
-            self.event_bar.place(relx= 1, rely=0, relwidth=1.0, relheight=1.0, anchor="sw")
-            self.event_bar.grid(row=0, column=0, padx=10, pady=(0,10), sticky="se")
-
             # Setup de la frame de l'accueil
-            self.main_frame = ctk.CTkFrame(self.master, fg_color="#333B46")
-            self.main_frame.place(relx= 0.15, rely=0.8, relwidth=1.0, relheight=1.0, anchor="sw")
+            self.main_frame = ctk.CTkFrame(self.master, fg_color="#333B46", width=self.master.get_rel_width(1600.0), height=self.master.get_rel_height(940.0))
+            self.main_frame.place(relx= 0.15, rely=0.8, anchor="sw")
             self.main_frame.grid(row=0, column=0, padx=10, pady=(10,0), sticky="ne")
+
+            # Setup de la barre d'événements
+            self.event_bar = ctk.CTkFrame(self.master, fg_color="#3B553C", width=self.master.get_rel_width(1600.0), height=self.master.get_rel_height(122.0))
+            self.event_bar.place(relx= 1, rely=0, anchor="sw")
+            self.event_bar.grid(row=0, column=0, padx=10, pady=(0,10), sticky="se")
 
             # Mise en place des tabs
             self.current_tab : int = -1
             self.switch_tab(0)
 
+
         def switch_tab(self, new_tab : int) -> None:
 
             """
             Change l'onglet actuel avec un nouveau.
+            
+            - Valeurs de new_tab - 
             0 : Statistiques
             1 : Eléments
             2 : Générateurs / Employés
@@ -114,6 +153,8 @@ class UserInterface(ctk.CTk):
             def setup_element():
                 print("Switched to Element Frame.")
                 self.current_tab = 1
+
+                self.request_event_animation("Le Ragnarok débute : vous n'avez plus d'impôts ni de demande sur le marché tant que le Ragnarok ne s'arrête pas", 10.0)
             
             def setup_generator():
                 print("Switched to Generator Frame.")
@@ -125,28 +166,70 @@ class UserInterface(ctk.CTk):
                 case 2: setup_generator()
 
             update_tab_buttons()
+        
+        def request_event_animation(self, event_text : str, time : float) -> None:
+
+            """
+            Initialisation de l'animation d'un event.
+            
+            event_text: str -> texte de l'event à afficher
+            time: float -> durée de l'animation
+            """
+
+            def scroll_animation():
+                
+                """
+                Animation de scroll de droite à gauche des events. Supprime l'event après que le temps est écoulé.
+                """
+
+                if self.event_time > 0:
+                    self.event_loc[0] -= 3
+                    self.current_event.place(x=self.event_loc[0], rely=0.25, anchor="nw")
+                    self.event_time -= 0.005
+                    self.master.after(5, scroll_animation)
+                else:
+                    self.current_event.destroy()
+                    self.is_event_on = False
+
+            if self.is_event_on: return
+            
+            self.is_event_on = True
+
+            self.current_event = ctk.CTkLabel(self.event_bar, 28, 28, text=event_text, font=("Arial", 64))
+            self.current_event.place(relx=1.0, rely=0.25, anchor="nw")
+
+            self.event_loc = [self.current_event.winfo_x(),self.current_event.winfo_y()]
+            self.event_time = time
+
+            scroll_animation()
 
     def __init__(self) -> None:
 
         super().__init__()
 
         self.title("Far From Bankruptcy")
-        self.geometry("1280x720")
+        self.geometry("1920x1080")
 
         self.wm_attributes("-fullscreen",True)
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        # Inititalisation écran titre
+        # Initialisation écran titre
         self.title_screen = self.TitleScreen(self)
-        # Inititalisation écran de jeu
-        self.game_screen = None
+        # Initialisation écran jeu
+        self.game_screen = self.GameScreen(self)
 
         self.game_update(lambda : print('Tick...'))
 
         self.update()
         self.mainloop()
+
+    def get_rel_width(self, width : float) -> float:
+        return width * (self.winfo_width()/1920)
+    
+    def get_rel_height(self, height : float) -> float:
+        return height * (self.winfo_height()/1080)
 
     def clear_screen(self):
 
@@ -163,7 +246,7 @@ class UserInterface(ctk.CTk):
         """
 
         self.title_screen.clear_title_screen()
-        self.game_screen = self.GameScreen(self)
+        self.game_screen.start_game()
 
     
     def game_update(self, update_func):
