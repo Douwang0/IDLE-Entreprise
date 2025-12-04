@@ -12,6 +12,10 @@ class Courbe:
     def update(self):
         if self.event == 0 :
             self.eventcourbe()
+        elif self.var < 0:
+            self.evolution = 1
+        elif self.var > 1:
+            self.evolution = -1
         else:
             self.var *= (rand.randint(1, 5) / 100) * self.evolution
             self.event -= 1
