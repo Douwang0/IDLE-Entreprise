@@ -23,21 +23,21 @@ class Element:
             self.qty -= nbr
             return True
     def buy(self,nbr):
+        if not 0 < nbr <= 100:
+            return
         if self.player.msub(nbr*self.price):
             self.qty += nbr
-    def price_change(self):
-        pass
-
-class Share(Element):
-    def __init__(self):
-        super().__init__()
-        self.rate = 0 # Change for random as well
-    def update(self):
-        super().update()
-        self.dividend()
-    def dividend(self):
-        self.player.madd(self.rate*self.qty)
 
 class Kayou(Element):
     def buy(self):
         self.qty +=1
+
+class Chemise(Element):
+    def __init__(self,player,value):
+        self.player = player
+        self.price = 0
+        pass
+    def update(self):
+        self.price = self.player.mget() + 1
+    def buy(self,nbr):
+        pass
