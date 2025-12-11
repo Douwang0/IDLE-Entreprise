@@ -71,3 +71,8 @@
 + Benefices
 + Impots fin de journée
 + msub force pour fin de game
++ Ajouts de tout les items achetables
++ Alternative employer (alien) a la demande de lylian
+
+## Charles
++ Scrolling interface pour les event et container des itemsde
