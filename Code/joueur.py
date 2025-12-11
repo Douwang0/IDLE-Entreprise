@@ -1,4 +1,5 @@
 from logic import *
+from logic import Game
 
 class Player:
     def __init__(self,game : Game):

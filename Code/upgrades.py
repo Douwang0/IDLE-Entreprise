@@ -1,4 +1,4 @@
-from player import Player
+from joueur import *
 
 class Employes():
     def __init__(self, price, bonus, player : Player):

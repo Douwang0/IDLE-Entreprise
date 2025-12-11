@@ -1,5 +1,5 @@
 from random import *
-from player import Player
+from joueur import *
 from courbe  import *
 
 class Element:

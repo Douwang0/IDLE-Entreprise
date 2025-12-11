@@ -1,4 +1,4 @@
-from player import Player
+from joueur import *
 from elements import *
 from upgrades import *
 from courbe import Courbe
