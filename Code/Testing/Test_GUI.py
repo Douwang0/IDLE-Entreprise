@@ -64,11 +64,37 @@ class UserInterface(ctk.CTk):
 
             class Object:
 
-                def __init__(self) -> None:
-                    pass
-            
+                def __init__(self, master, name : str, desc : str, price : float) -> None:
+                    
+                    self.master_container = master
+                    self.name : str = name
+                    self.desc : str = desc
+                    self.price : float = price
+
+                    self.construct_object()
+
+                def construct_object(self):
+                    
+                    self.container = ctk.CTkFrame(self.master_container)
+                    self.image = ctk.CTkImage(...)
+                    self.btn_buy = ctk.CTkButton(self.container)
+                    self.btn_sell = ctk.CTkButton(self.container)
+
             def __init__(self):
-                pass
+                
+                self.obj_container = ctk.CTkScrollableFrame(...)
+
+            def add_object(self, obj_details : list):
+                
+                """
+                obj_details :
+                0 -> name
+                1 -> desc
+                2 -> price
+                """
+
+                # Ajouter mise en place des variables pour mettre l'image, le nom, ...
+                new_obj = self.Object(self.obj_container, obj_details[0], obj_details[1], obj_details[2])
         
         class Tab_Generator:
 
@@ -86,7 +112,6 @@ class UserInterface(ctk.CTk):
             self.master = master
 
             self.is_event_on : bool = False
-
         
         def start_game(self):
 
@@ -166,6 +191,13 @@ class UserInterface(ctk.CTk):
                 case 2: setup_generator()
 
             update_tab_buttons()
+
+        def request_event(self, event) -> None:
+
+            """
+            Update les infos relatives à l'event
+            Affiche l'event
+            """
         
         def request_event_animation(self, event_text : str, time : float) -> None:
 
@@ -208,7 +240,7 @@ class UserInterface(ctk.CTk):
         super().__init__()
 
         self.title("Far From Bankruptcy")
-        self.geometry("1920x1080")
+        self.geometry(f'{self.get_rel_width(1920)}x{self.get_rel_height(1080)}')
 
         self.wm_attributes("-fullscreen",True)
 
@@ -222,7 +254,6 @@ class UserInterface(ctk.CTk):
 
         self.game_update(lambda : print('Tick...'))
 
-        self.update()
         self.mainloop()
 
     def get_rel_width(self, width : float) -> float:
