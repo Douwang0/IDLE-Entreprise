@@ -1,8 +1,6 @@
 
 import customtkinter as ctk
 
-print(ctk.__version__)
-
 class UserInterface(ctk.CTk):
 
     """
