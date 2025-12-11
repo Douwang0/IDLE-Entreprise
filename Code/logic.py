@@ -1,7 +1,9 @@
-from player import Player
+from joueur import *
 from elements import *
 from upgrades import *
-from courbe import Courbe
+from courbe import *
+
+# pyright: ignore[reportUndefinedVariable]
 
 def highscore(new_score = 0, filename="highscore.txt"):
     """
@@ -25,7 +27,7 @@ class Game:
     def __init__(self):
         self.tick = 0
         self.day = 0
-        self.daylenth = 5
+        self.daylenth = 180
         self.player = Player(self)
         self.kayou = Kayou(self.player,0.1)
         self.mps = 0
@@ -33,6 +35,7 @@ class Game:
         self.benefices_journee = 0
         self.benefice_hier = 0
         self.quota = 10000
+        self.ui = None
         # self.event = Eventmanagement()
         self.elements = {
             "stylo" : Element(self.player,5),
@@ -100,6 +103,8 @@ class Game:
                 return self.share[id].sell(nbr)
     def new_day(self):
             self.tick = 0
+            if self.daylenth != 60:
+                self.daylenth -= 5
             impots = (self.benefices_journee * self.impots) if self.benefices_journee > 0 else 0
             self.benefice_hier = self.benefices_journee
             self.benefices_journee = 0
