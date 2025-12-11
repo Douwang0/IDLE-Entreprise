@@ -62,8 +62,7 @@ class Game:
             "La chaine Vilbrequin": Element(self.player, 5000000)
         }
         self.upgrades = {
-            "employes" : Employes(100,10,self.player),
-            "Alien" : Employes(100,20,self.player)
+            "employes" : Employes(100,10,self.player)
         }
         self.allcollectebles = self.elements.items() + self.upgrades.items() + [self.kayou]
         self.allIterable = self.allcollectebles # + [self.event]
