@@ -1,3 +1,4 @@
+
 import customtkinter as ctk
 
 class UserInterface(ctk.CTk):
@@ -8,7 +9,7 @@ class UserInterface(ctk.CTk):
     Architecture en cours...
     """
 
-    class TitleScreen:
+    class __TitleScreen:
 
         """
         Classe encapsulant les fonctionnalités de l'écran titre (séparé de l'interface en jeu).
@@ -42,17 +43,22 @@ class UserInterface(ctk.CTk):
         
         def clear_title_screen(self):
             for widget in self.title_screen_frame.winfo_children(): widget.destroy()
+    
+    class __EndScreen:
 
-    class GameScreen:
+        def __init__(self) -> None:
+            pass
+
+    class __GameScreen:
 
         """
         Classe encapsulant les fonctionnalités de l'écran du jeu en gameplay.
         Architecture en cours...
         """
 
-        class Tab_Stats:
+        class __Tab_Stats:
 
-            class Graphs:
+            class __Graphs:
 
                 def __init__(self) -> None:
                     pass
@@ -60,15 +66,14 @@ class UserInterface(ctk.CTk):
             def __init__(self):
                 pass
 
-        class Tab_Elements:
+        class __Tab_Elements:
 
-            class Object:
+            class __Object:
 
-                def __init__(self, master, name : str, desc : str, price : float) -> None:
+                def __init__(self, master, name : str, price : float) -> None:
                     
                     self.master_container = master
                     self.name : str = name
-                    self.desc : str = desc
                     self.price : float = price
 
                     self.construct_object()
@@ -76,29 +81,48 @@ class UserInterface(ctk.CTk):
                 def construct_object(self):
                     
                     self.container = ctk.CTkFrame(self.master_container)
-                    self.image = ctk.CTkImage(...)
+                    #self.image = ctk.CTkImage(...)
                     self.btn_buy = ctk.CTkButton(self.container)
                     self.btn_sell = ctk.CTkButton(self.container)
 
-            def __init__(self):
+            def __init__(self, frame_ref : ctk.CTkFrame):
                 
-                self.obj_container = ctk.CTkScrollableFrame(...)
+                self.frame_ref = frame_ref
+                self.obj_container = None
+                self.elements = {}
+
+            def update_elements(self, elements):  self.elements = elements
+
+            def remove_marketplace(self):
+                if self.obj_container != None: self.obj_container.destroy()
+
+            def add_marketplace(self):
+
+                """
+                Ajoute le marketplace à l'écran lorsque l'on est dans la tab elements
+                """
+                
+                if self.obj_container != None: return
+
+                self.obj_container = ctk.CTkScrollableFrame(self.frame_ref, 600, 400)
+
+                for obj in self.elements.keys():
+                    self.add_object([obj, self.elements[obj]])
 
             def add_object(self, obj_details : list):
                 
                 """
                 obj_details :
                 0 -> name
-                1 -> desc
-                2 -> price
+                1 -> price
                 """
 
                 # Ajouter mise en place des variables pour mettre l'image, le nom, ...
-                new_obj = self.Object(self.obj_container, obj_details[0], obj_details[1], obj_details[2])
+                self.__Object(self.obj_container, obj_details[0], obj_details[1])
         
-        class Tab_Generator:
+        class __Tab_Generator:
 
-            class Field:
+            class __Field:
 
                 def __init__(self) -> None:
                     pass
@@ -110,7 +134,8 @@ class UserInterface(ctk.CTk):
             
             # Référence au widget principal
             self.master = master
-
+            
+            self.elements = {}
             self.is_event_on : bool = False
         
         def start_game(self):
@@ -133,6 +158,9 @@ class UserInterface(ctk.CTk):
             # Mise en place des tabs
             self.current_tab : int = -1
             self.switch_tab(0)
+
+            # Ajout Tab Element du Marketplace
+            self.marketplace = self.__Tab_Elements(self.main_frame)
 
 
         def switch_tab(self, new_tab : int) -> None:
@@ -172,20 +200,26 @@ class UserInterface(ctk.CTk):
                 generator_btn.place(relx=0.5, rely=0.525, anchor="center")
 
             def setup_stats():
+
                 print("Switched to Stats Frame.")
+
                 self.current_tab = 0
             
             def setup_element():
-                print("Switched to Element Frame.")
-                self.current_tab = 1
 
-                self.request_event_animation("Le Ragnarok débute : vous n'avez plus d'impôts ni de demande sur le marché tant que le Ragnarok ne s'arrête pas", 10.0)
+                print("Switched to Element Frame.")
+
+                self.current_tab = 1
+                self.marketplace.add_marketplace()
             
             def setup_generator():
+
                 print("Switched to Generator Frame.")
+
                 self.current_tab = 2
 
             match new_tab:
+
                 case 0: setup_stats()
                 case 1: setup_element()
                 case 2: setup_generator()
@@ -211,7 +245,7 @@ class UserInterface(ctk.CTk):
                     self.event_loc[0] -= 3
                     self.current_event.place(x=self.event_loc[0], rely=0.25, anchor="nw")
                     self.event_time -= 0.005
-                    self.master.after(5, scroll_animation)
+                    self.current_event.after(5, scroll_animation)
                 else:
                     self.current_event.destroy()
                     self.is_event_on = False
@@ -241,9 +275,11 @@ class UserInterface(ctk.CTk):
         self.grid_columnconfigure(0, weight=1)
 
         # Initialisation écran titre
-        self.title_screen = self.TitleScreen(self)
+        self.title_screen = self.__TitleScreen(self)
         # Initialisation écran jeu
-        self.game_screen = self.GameScreen(self)
+        self.game_screen = self.__GameScreen(self)
+        # Ref au game
+        self.game = None
 
         self.game_update(lambda : print('Tick...'))
 
