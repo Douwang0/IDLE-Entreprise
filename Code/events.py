@@ -1,5 +1,6 @@
-from logic import Game
-from upgrades import Employes
+if __name__ == "__main__":
+    from logic import Game
+    from upgrades import Employes
 
 class Events:
     def __init__(self, index, temp, duration, eventtype=[]):

@@ -1,7 +1,8 @@
-from joueur import *
-from elements import *
-from upgrades import *
-from courbe import Courbe
+if __name__ == "__main__":
+    from joueur import *
+    from elements import *
+    from upgrades import *
+    from courbe import Courbe
 
 def highscore(new_score = 0, filename="highscore.txt"):
     """

@@ -1,4 +1,5 @@
-import customtkinter as ctk
+if __name__ == "__main__":
+    import customtkinter as ctk
 
 class UserInterface(ctk.CTk):
 

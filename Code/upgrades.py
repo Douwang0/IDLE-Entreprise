@@ -1,4 +1,5 @@
-from joueur import *
+if __name__ == "__main__":
+    from joueur import *
 
 class Employes():
     def __init__(self, price, bonus, player : Player):
