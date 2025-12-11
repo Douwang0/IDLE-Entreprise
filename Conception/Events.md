@@ -1,7 +1,7 @@
 La lune est percutée par un violent astéroïde, pluie de débris sur Terre : Les kayoux voient leur prix multiplié par 100
 -> event stackable
 
-Cthulhu fait son retour : La nuit tombe durant (nb random 2-4) minutes 
+Cthulhu fait son retour : La nuit tombe durant 3 minutes 
 -> la journée se finie après le temps
 
 Macron fait son (nb)ième mandat : Le taux inflation augmente de (nb * 5) % pendant 5 jours

@@ -141,17 +141,17 @@ class UserInterface(ctk.CTk):
         def start_game(self):
 
             # Setup de la side bar
-            self.side_bar = ctk.CTkFrame(self.master, fg_color="#272533", width=self.master.get_rel_width(300.0), height=self.master.get_rel_height(1080.0))
+            self.side_bar = ctk.CTkFrame(self.master, fg_color="#272533", width=300.0, height=1080.0)
             self.side_bar.place(relx= 0, rely=0, anchor="nw")
             self.side_bar.grid(row=0, column=0, padx=10, pady=(10,10), sticky="nsw")
 
             # Setup de la frame de l'accueil
-            self.main_frame = ctk.CTkFrame(self.master, fg_color="#333B46", width=self.master.get_rel_width(1600.0), height=self.master.get_rel_height(940.0))
+            self.main_frame = ctk.CTkFrame(self.master, fg_color="#333B46", width=1600.0, height=940.0)
             self.main_frame.place(relx= 0.15, rely=0.8, anchor="sw")
             self.main_frame.grid(row=0, column=0, padx=10, pady=(10,0), sticky="ne")
 
             # Setup de la barre d'événements
-            self.event_bar = ctk.CTkFrame(self.master, fg_color="#3B553C", width=self.master.get_rel_width(1600.0), height=self.master.get_rel_height(122.0))
+            self.event_bar = ctk.CTkFrame(self.master, fg_color="#3B553C", width=1600.0, height=122.0)
             self.event_bar.place(relx= 1, rely=0, anchor="sw")
             self.event_bar.grid(row=0, column=0, padx=10, pady=(0,10), sticky="se")
 
@@ -267,7 +267,8 @@ class UserInterface(ctk.CTk):
         super().__init__()
 
         self.title("Far From Bankruptcy")
-        #self.geometry(f'{self.get_rel_width(1920)}x{self.get_rel_height(1080)}')
+
+        self.geometry("1920x1080")
 
         self.wm_attributes("-fullscreen",True)
 
@@ -286,12 +287,6 @@ class UserInterface(ctk.CTk):
         self.mainloop()
 
     def set_game_ref(self, game_ref): self.game = game_ref
-
-    def get_rel_width(self, width : float) -> float:
-        return width * (self.winfo_width()/1920)
-    
-    def get_rel_height(self, height : float) -> float:
-        return height * (self.winfo_height()/1080)
 
     def clear_screen(self):
 
