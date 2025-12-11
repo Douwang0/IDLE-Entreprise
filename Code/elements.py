@@ -1,11 +1,17 @@
-from player import Player
+from random import *
+from joueur import *
+from courbe  import *
+
 class Element:
-    def __init__(self,player : Player):
-        self.price = None # modify with randomifiers later
+    def __init__(self,player : Player,valeur):
+        self.price = valeur
         self.qty = 0
         self.player = player
+        self.courbe = Courbe()
+        self.valeur = valeur
     def update(self):
-        self.price_change
+        self.courbe.update()
+        self.price = self.valeur * self.courbe.getvar() * 2
     def sell(self,nbr):
         """
         Sells nbr of elements, return false if not enough elements
@@ -17,21 +23,21 @@ class Element:
             self.qty -= nbr
             return True
     def buy(self,nbr):
+        if not 0 < nbr <= 100:
+            return
         if self.player.msub(nbr*self.price):
             self.qty += nbr
-    def price_change(self):
-        pass # self.price += r.random(-1,1)
-
-class Share(Element):
-    def __init__(self):
-        super().__init__()
-        self.rate = 0 # Change for random as well
-    def update(self):
-        super().update()
-        self.dividend()
-    def dividend(self):
-        self.player.madd(self.rate*self.qty)
 
 class Kayou(Element):
     def buy(self):
         self.qty +=1
+
+class Chemise(Element):
+    def __init__(self,player,value):
+        self.player = player
+        self.price = 0
+        pass
+    def update(self):
+        self.price = self.player.mget() + 1
+    def buy(self,nbr):
+        pass

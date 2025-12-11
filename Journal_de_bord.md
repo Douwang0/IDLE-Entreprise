@@ -1,12 +1,78 @@
 # Semaine 1
 
-## Giulian
-+ Redaction du journal
 ## Charles
 + Recherche sur le moteur graphique
   
 ## Evan
 + Conception graphique (avec Lylian)
 
-# Lylian
+## Giulian
++ Redaction du journal
+
+## Lylian
 + Conception graphique (avec Evan)
+
+
+# Semaine 2
+
+## Charles
++ Bases de l'interface graphique tkintercustom
+
+## Evan
++ Création de la maquette de l'interface
+
+## Giulian
++ Création des classes du jeu ainsi que de la logique primaire, aide pour la création des events
+
+## Lylian
++ Gestion de l'aléatoire + rédaction des events
+
+
+# Semaine 3
+
+## Charles
++ Réagencement de l'organisation de l'interface
++ Ajout de bases pour des fonctions futures d'échanges d'onglet
++ Mise en place de l'écran titre (à finir pour la prochaine séance)
+
+## Evan
++ Finalisation de la maquette de l'interface
++ Croquis des icônes des générateurs
+
+## Giulian
++ Amélioration d'élément
++ Systeme de courbe pour l'utilisation du random dans l'élément
+
+## Lylian 
+
++ Finition de la classe Courbe
++ Commencement de la classe Event
+
+
+# Semaine 4
+
+## Charles
++ Mise en place du changement d'onglets
+
+## Evan
++ Création de concepts de plusieurs objets
+
+## Lylian
++ Ajout d'événements
+
+## Giulian
++ Ajout de la persistance avec un systeme de highscore
++ Base des impots
++ Methode d'achat/vente
+
+# Semaine 5
+
+## Giulian
++ Benefices
++ Impots fin de journée
++ msub force pour fin de game
++ Ajouts de tout les items achetables
++ Alternative employer (alien) a la demande de lylian
+
+## Charles
++ Scrolling interface pour les event et container des itemsde

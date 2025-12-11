@@ -11,7 +11,7 @@ Membres : Charles, Giulian, Lylian, Evan C.
 Rôles : 
 - Charles : Lead Programmeur full-stack, Dev GUI
 - Giulian : Chef de projet, Back-end
-- Lylian : Programmeur full-stack
+- Lylian : Programmeur full-stack, directeur du departement de l'humour
 - Evan : Designer GUI
 Titre du projet : Idle Entreprise
 Date de début : 13/10/2025
@@ -146,10 +146,11 @@ L’application est un jeu de gestion humoristique reposant sur un système de j
         
 - L’humour reste secondaire et ne gêne pas la lisibilité du jeu.
 
+
 # 3 - Architecture technique
 Langage : Python 3.14
 Paradigme : POO
-Bibliothèques : CustomTkinter
+Bibliothèques : CustomTkinter, random
 
 # 4 - Schéma de classes (UML simplifié)
 Inclure : classes principales, attributs, méthodes, relations.
