@@ -3,8 +3,6 @@ from elements import *
 from upgrades import *
 from courbe import *
 
-# pyright: ignore[reportUndefinedVariable]
-
 def highscore(new_score = 0, filename="highscore.txt"):
     """
     Updates highscore, returns new high score (can be used without arg to get current highscore)
@@ -28,14 +26,13 @@ class Game:
         self.tick = 0
         self.day = 0
         self.daylenth = 180
-        self.player = Player(self)
+        self.player = Player(self) 
         self.kayou = Kayou(self.player,0.1)
         self.mps = 0
         self.impots = 0.01
         self.benefices_journee = 0
         self.benefice_hier = 0
         self.quota = 10000
-        self.ui = None
         # self.event = Eventmanagement()
         self.elements = {
             "stylo" : Element(self.player,5),
@@ -67,8 +64,12 @@ class Game:
         self.upgrades = {
             "employes" : Employes(100,10,self.player)
         }
-        self.allcollectebles = self.elements.items() + self.upgrades.items() + [self.kayou]
-        self.allIterable = self.allcollectebles # + [self.event]
+        self.allcollectebles = (
+            *self.elements.items(),
+            *self.upgrades.items(),
+            self.kayou
+        )
+        self.allIterable = self.allIterable # (*self.allIterable,self.event)
     def update(self):
         self.tick += 1
         self.mps = self.player.mget()
