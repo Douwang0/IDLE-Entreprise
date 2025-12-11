@@ -1,6 +1,4 @@
-if __name__ == "__main__":
-    from logic import *
-    from logic import Game
+from logic import *
 
 class Player:
     def __init__(self,game : Game):

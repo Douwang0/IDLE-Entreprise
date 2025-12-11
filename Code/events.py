@@ -1,6 +1,5 @@
-if __name__ == "__main__":
-    from logic import Game
-    from upgrades import Employes
+from logic import *
+from upgrades import *
 
 class Events:
     def __init__(self, index, temp, duration, eventtype=[]):

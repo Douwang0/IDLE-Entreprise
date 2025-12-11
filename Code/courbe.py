@@ -1,5 +1,4 @@
-if __name__ == "__main__":
-    import random as rand
+import random as rand
 
 class Courbe:
     def __init__(self):

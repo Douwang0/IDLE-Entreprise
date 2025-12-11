@@ -1,7 +1,6 @@
-if __name__ == "__main__":
-    from random import *
-    from joueur import *
-    from courbe  import *
+from random import *
+from joueur import *
+from courbe  import *
 
 class Element:
     def __init__(self,player : Player,valeur):

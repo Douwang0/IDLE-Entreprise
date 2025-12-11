@@ -4,7 +4,7 @@ from elements import *
 from upgrades import *
 from courbe import *
 from events import *
-from gui import UserInterface
+from gui import *
 
 class App:
     def __init__(self):

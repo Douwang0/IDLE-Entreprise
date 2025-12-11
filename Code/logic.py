@@ -1,8 +1,9 @@
-if __name__ == "__main__":
-    from joueur import *
-    from elements import *
-    from upgrades import *
-    from courbe import Courbe
+from joueur import *
+from elements import *
+from upgrades import *
+from courbe import *
+
+# pyright: ignore[reportUndefinedVariable]
 
 def highscore(new_score = 0, filename="highscore.txt"):
     """
