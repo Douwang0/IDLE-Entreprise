@@ -191,13 +191,6 @@ class UserInterface(ctk.CTk):
                 case 2: setup_generator()
 
             update_tab_buttons()
-
-        def request_event(self, event) -> None:
-
-            """
-            Update les infos relatives à l'event
-            Affiche l'event
-            """
         
         def request_event_animation(self, event_text : str, time : float) -> None:
 
