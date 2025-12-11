@@ -267,7 +267,7 @@ class UserInterface(ctk.CTk):
         super().__init__()
 
         self.title("Far From Bankruptcy")
-        self.geometry(f'{self.get_rel_width(1920)}x{self.get_rel_height(1080)}')
+        #self.geometry(f'{self.get_rel_width(1920)}x{self.get_rel_height(1080)}')
 
         self.wm_attributes("-fullscreen",True)
 
