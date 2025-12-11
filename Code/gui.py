@@ -285,6 +285,8 @@ class UserInterface(ctk.CTk):
 
         self.mainloop()
 
+    def set_game_ref(self, game_ref): self.game = game_ref
+
     def get_rel_width(self, width : float) -> float:
         return width * (self.winfo_width()/1920)
     
