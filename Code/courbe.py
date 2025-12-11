@@ -8,7 +8,7 @@ class Courbe:
         self.chance = 0
     def eventcourbe(self):
         self.event = rand.randint(3, 6)
-        self.evolution = rand.choices([-1,1], [100 - self.chance, 100 + self.chance])
+        self.evolution = rand.choices([-1,1], [100 - self.chance, 100 + self.chance])[0]
     def update(self):
         if self.event == 0 :
             self.eventcourbe()
@@ -17,7 +17,7 @@ class Courbe:
         elif self.var > 1:
             self.evolution = -1
         else:
-            self.var *= (rand.randint(1, 5) / 100) * self.evolution
+            self.var *= rand.randint((1  * self.evolution), 5  * self.evolution) / 100
             self.event -= 1
     def getvar(self):
         return self.var
