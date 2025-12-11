@@ -69,7 +69,7 @@ class Game:
             *self.upgrades.items(),
             self.kayou
         )
-        self.allIterable = self.allIterable # (*self.allIterable,self.event)
+        self.allIterable = self.allcollectebles # (*self.allIterable,self.event)
     def update(self):
         self.tick += 1
         self.mps = self.player.mget()
