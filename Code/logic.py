@@ -70,6 +70,8 @@ class Game:
             self.kayou
         )
         self.allIterable = self.allcollectebles # (*self.allIterable,self.event)
+    def elemget(self, elem):
+        return self.elements[elem]
     def update(self):
         self.tick += 1
         self.mps = self.player.mget()

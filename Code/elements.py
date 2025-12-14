@@ -27,10 +27,15 @@ class Element:
             return
         if self.player.msub(nbr*self.price):
             self.qty += nbr
+    def pricemodif(self, mod): #en pourcentages
+        temp = self.price
+        self.price += (self.price/100) * mod
+        return temp
 
 class Kayou(Element):
     def buy(self):
         self.qty +=1
+    
 
 class Chemise(Element):
     def __init__(self,player,value):
