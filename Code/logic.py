@@ -104,6 +104,8 @@ class Game:
                 return self.elements[id].sell(nbr)
             case "share":
                 return self.share[id].sell(nbr)
+    def timemodif(self, sec):
+        self.daylenth += sec
     def new_day(self):
             self.tick = 0
             if self.daylenth != 60:
