@@ -21,3 +21,10 @@ class Courbe:
             self.event -= 1
     def getvar(self):
         return self.var
+    def chancemodif(self, mod):
+        """
+        Docstring for chancemodif
+        
+        :param mod: Int entre -100 et 100, négatif = bas et positif = haut 
+        """
+        self.chance += mod

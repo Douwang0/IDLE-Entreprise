@@ -106,6 +106,13 @@ class Game:
                 return self.share[id].sell(nbr)
     def timemodif(self, sec):
         self.daylenth += sec
+    def taxmodif(self, mod):
+        """
+        Docstring for taxmodif
+        
+        :param mod: Float entre 0 et 1 représentant des pourcentages
+        """
+        self.impots += mod
     def new_day(self):
             self.tick = 0
             if self.daylenth != 60:

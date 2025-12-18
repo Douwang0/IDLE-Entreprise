@@ -1,7 +1,6 @@
 from logic import Game
 from upgrades import Employes
 
-
 class Events:
     def __init__(self, index, temp, duration, desc, eventtype=[]):
         self.index = index
@@ -24,13 +23,13 @@ class Events:
             self.temp2 = game.upgrades["employes"].rendmodif(self.temp)
         elif "demmandemodif" in self.enventtype:
             for i in game.elements:
-                game.elements[i].courbe.chance += self.temp
+                game.elements[i].courbe.chancemodif(self.temp)
         elif "gainjourinstant" in self.enventtype:
             game.player.madd(game.mps * game.daylenth * self.temp)
         elif "taxmodif" in self.enventtype:
-            game.impots += self.temp
+            game.taxmodif(self.temp)
         elif "gainsmodif" in self.enventtype:
-            game.player.bonus += self.temp / 100
+            game.player.bonusmodiff(self.temp / 100)
         elif "aliens" in self.enventtype:
             game.upgrades["Alien"] = Employes(100,20,game.player)
         elif "newevent" in self.enventtype:
