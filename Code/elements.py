@@ -66,6 +66,10 @@ class Element:
 
         if self.player.msub(nbr * self.price):
             self.qty += nbr
+    def pricemodif(self, mod): #en pourcentages
+        temp = self.price
+        self.price += (self.price/100) * mod
+        return temp
 
 
 class Kayou(Element):

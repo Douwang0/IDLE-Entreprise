@@ -7,20 +7,21 @@ class Events:
         self.index = index
         self.enventtype = eventtype
         self.temp = temp
+        self.temp2 = [0]
         self.duration = duration
         self.description = desc
     def action(self, game : Game):
         if "kayou+" in self.enventtype:
-            game.kayou.price *= self.temp
+            game.kayou.pricemodif(self.temp) 
         elif "timodif" in self.enventtype:
-            game.daylenth += self.temp
+            game.timemodif(self.temp)
         elif "pricemodif" in self.enventtype:
-            self.temp = (game.elements[i].price / 100) * self.temp
+            a = 0
             for i in game.elements:
-                game.elements[i].price += self.temp
+                self.temp2[a] = game.elements[i].pricemodif(self.temp)
+                a += 1    
         elif "employrendmodif" in self.enventtype:
-            self.temp = (game.upgrades["employes"].bonus / 100) * self.temp
-            game.upgrades["employes"].bonus += self.temp
+            self.temp2 = game.upgrades["employes"].rendmodif(self.temp)
         elif "demmandemodif" in self.enventtype:
             for i in game.elements:
                 game.elements[i].courbe.chance += self.temp
@@ -38,8 +39,10 @@ class Events:
         if "timodif" in self.enventtype:
             game.daylenth -= self.temp
         elif "pricemodif" in self.enventtype:
+            a = 0
             for i in game.elements:
-                game.elements[i].price -= self.temp
+                game.elements[i].pricemodif(self.temp2[a])
+                a += 1    
         elif "employrendmodif" in self.enventtype:
             game.upgrades["employes"].bonus -= self.temp
         elif "demmandemodif" in self.enventtype:

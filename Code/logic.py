@@ -118,7 +118,9 @@ class Game:
             *self.upgrades.values(),
             self.kayou
         )
-
+        self.allIterable = self.allcollectebles # (*self.allIterable,self.event)
+    def elemget(self, elem):
+        return self.elements[elem]
     def update(self):
         """
         Met à jour l'état du jeu à chaque tick.
@@ -165,6 +167,10 @@ class Game:
                 return self.elements[obj_id].sell(nbr)
             case "upgrade":
                 return self.upgrades[obj_id].sell(nbr)
+            case "share":
+                return self.share[obj_id].sell(nbr)
+    def timemodif(self, sec):
+        self.daylenth += sec
 
     def new_day(self):
         """

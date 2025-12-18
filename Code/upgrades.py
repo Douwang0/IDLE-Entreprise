@@ -23,3 +23,7 @@ class Employes():
         if self.player.msub(self.price):
             self.bonus *= 5
             self.augment *= 10
+    def rendmodif(self, mod):
+        temp = self.bonus
+        self.bonus += mod
+        return temp
