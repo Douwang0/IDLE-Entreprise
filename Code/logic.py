@@ -1,52 +1,97 @@
-from joueur import *
-from elements import *
-from upgrades import *
-from courbe import *
+"""
+logic.py
 
-def highscore(new_score = 0, filename="highscore.txt"):
+Module central contenant la logique principale du jeu Idle
+"Far From Bankruptcy".
+
+Il gère :
+- l'état global de la partie
+- la progression du temps (ticks / jours)
+- les achats et ventes
+- les bénéfices, impôts et conditions de fin
+"""
+
+from joueur import Player
+from elements import Element, Kayou, Chemise
+from upgrades import Employes
+from courbe import Courbe
+
+
+def highscore(new_score=0, filename="highscore.txt"):
     """
-    Updates highscore, returns new high score (can be used without arg to get current highscore)
+    Met à jour ou récupère le meilleur score enregistré.
+
+    Paramètres
+    ----------
+    new_score : int
+        Score à comparer avec l'ancien (par défaut 0 pour simple lecture)
+    filename : str
+        Fichier contenant le highscore
+
+    Retour
+    ------
+    int
+        Le highscore actuel
     """
     try:
-        with open(filename, "r") as f:
-            stored_score = int(f.read().strip())
+        with open(filename, "r") as file:
+            stored_score = int(file.read().strip())
     except FileNotFoundError:
-        stored_score = 0  # If no file yet, start at 0
+        stored_score = 0
 
     if new_score > stored_score:
-        with open(filename, "w") as f:
-            f.write(str(new_score))
-        return new_score  # Updated
-    else:
-        return stored_score  # No change
+        with open(filename, "w") as file:
+            file.write(str(new_score))
+        return new_score
+
+    return stored_score
 
 
 class Game:
+    """
+    Classe principale représentant une partie de jeu.
+
+    Elle gère :
+    - le temps (ticks, jours)
+    - le joueur
+    - les éléments achetables
+    - les upgrades
+    - les bénéfices et impôts
+    """
+
     def __init__(self):
+        # Temps
         self.tick = 0
         self.day = 0
-        self.daylenth = 180
-        self.player = Player(self) 
-        self.kayou = Kayou(self.player,0.1)
+        self.daylenth = 180  # durée d'un jour en ticks
+
+        # Joueur
+        self.player = Player(self)
+
+        # Élément spécial
+        self.kayou = Kayou(self.player, 0.1)
+
+        # Économie
         self.mps = 0
         self.impots = 0.01
         self.benefices_journee = 0
         self.benefice_hier = 0
         self.quota = 10000
-        # self.event = Eventmanagement()
+
+        # Éléments du marché
         self.elements = {
-            "stylo" : Element(self.player,5),
-            "Bouteille" : Element(self.player,20),
-            "Chaise" : Element(self.player,50),
-            "Chaise (Sophistiquée)" : Element(self.player,800),
-            "Samsung 2TM" : Element(self.player,500),
-            "Ordinateur Fixe" : Element(self.player,4000),
-            "Ordinateur Portatif" : Element(self.player,1500),
-            "Ordinateur Quantique" : Element(self.player,3.2),
-            "camionnnn" : Element(self.player,200000),
-            "voiture (Sophistiquée)" : Element(self.player,500000),
-            "Maison" : Element(self.player,800000),
-            "The legend of Zelda Souvenir d'Enfance - Matthieu Meriot" : Element(self.player,5),
+            "stylo": Element(self.player, 5),
+            "Bouteille": Element(self.player, 20),
+            "Chaise": Element(self.player, 50),
+            "Chaise (Sophistiquée)": Element(self.player, 800),
+            "Samsung 2TM": Element(self.player, 500),
+            "Ordinateur Fixe": Element(self.player, 4000),
+            "Ordinateur Portatif": Element(self.player, 1500),
+            "Ordinateur Quantique": Element(self.player, 3.2),
+            "camionnnn": Element(self.player, 200000),
+            "voiture (Sophistiquée)": Element(self.player, 500000),
+            "Maison": Element(self.player, 800000),
+            "The legend of Zelda Souvenir d'Enfance - Matthieu Meriot": Element(self.player, 5),
             "Planètes": Element(self.player, 1e8),
             "gachettes pour manettes": Element(self.player, 36),
             'des touches "cap lock"': Element(self.player, 280),
@@ -59,59 +104,94 @@ class Game:
             "chemise de Charles": Chemise(self.player, "tres cher"),
             "boeing 732": Element(self.player, 70000),
             "être humain de droite": Element(self.player, 12000),
-            "La chaine Vilbrequin": Element(self.player, 5000000)
+            "La chaine Vilbrequin": Element(self.player, 5000000),
         }
+
+        # Upgrades
         self.upgrades = {
-            "employes" : Employes(100,10,self.player)
+            "employes": Employes(100, 10, self.player)
         }
-        self.allcollectebles = (
-            *self.elements.items(),
-            *self.upgrades.items(),
+
+        # Regroupement de tous les objets à mettre à jour
+        self.allcollectables = (
+            *self.elements.values(),
+            *self.upgrades.values(),
             self.kayou
         )
-        self.allIterable = self.allcollectebles # (*self.allIterable,self.event)
+
     def update(self):
+        """
+        Met à jour l'état du jeu à chaque tick.
+        """
         self.tick += 1
-        self.mps = self.player.mget()
-        for item in self.allIterable:
+
+        # Calcul des gains par seconde
+        argent_avant = self.player.mget()
+
+        for item in self.allcollectables:
             item.update()
-        self.mps = self.player.mget() - self.mps
-        # End
-        if  self.tick >= self.daylenth:
+
+        self.mps = self.player.mget() - argent_avant
+
+        # Passage au jour suivant
+        if self.tick >= self.daylenth:
             self.new_day()
+
+        # Condition de défaite
         if self.player.mget() < 0:
             highscore(self.day)
-            # appeller game end interface
-    def buy(self,id,type,nbr = 1):
-        match type:
+            # TODO : appeler l'écran de fin de jeu
+
+    def buy(self, obj_id, obj_type, nbr=1):
+        """
+        Gère l'achat d'un objet selon son type.
+        """
+        match obj_type:
             case "kayou":
                 self.kayou.buy()
             case "element":
-                self.elements[id].buy(nbr)
+                self.elements[obj_id].buy(nbr)
             case "upgrade":
-                self.elements[id].buy(nbr)
-            case "share":
-                self.share[id].buy(nbr)
-    def sell(self,id,type,nbr = 1):
-        match type:
+                self.upgrades[obj_id].buy(nbr)
+
+    def sell(self, obj_id, obj_type, nbr=1):
+        """
+        Gère la vente d'un objet selon son type.
+        """
+        match obj_type:
             case "kayou":
                 return self.kayou.sell(nbr)
             case "element":
-                return self.elements[id].sell(nbr)
+                return self.elements[obj_id].sell(nbr)
             case "upgrade":
-                return self.elements[id].sell(nbr)
-            case "share":
-                return self.share[id].sell(nbr)
+                return self.upgrades[obj_id].sell(nbr)
+
     def new_day(self):
-            self.tick = 0
-            if self.daylenth != 60:
-                self.daylenth -= 5
-            impots = (self.benefices_journee * self.impots) if self.benefices_journee > 0 else 0
-            self.benefice_hier = self.benefices_journee
-            self.benefices_journee = 0
-            self.player.msub(impots,True)
-            self.player.msub(self.quota*self.impots,True)
-            self.day += 1
-            self.impots *= 1.05
-            # appeler game pause interface
-        
+        """
+        Applique les calculs de fin de journée :
+        - impôts
+        - quota
+        - augmentation de la difficulté
+        """
+        self.tick = 0
+
+        if self.daylenth != 60:
+            self.daylenth -= 5
+
+        impots = (
+            self.benefices_journee * self.impots
+            if self.benefices_journee > 0
+            else 0
+        )
+
+        self.benefice_hier = self.benefices_journee
+        self.benefices_journee = 0
+
+        # Paiement des impôts et du quota
+        self.player.msub(impots, True)
+        self.player.msub(self.quota * self.impots, True)
+
+        self.day += 1
+        self.impots *= 1.05
+
+        # TODO : appeler l'interface de pause / bilan journalier
