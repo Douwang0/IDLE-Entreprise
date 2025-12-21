@@ -81,33 +81,94 @@ class UserInterface(ctk.CTk):
                 def construct_object(self):
                     
                     self.container = ctk.CTkFrame(self.master_container)
-                    #self.image = ctk.CTkImage(...)
-                    self.btn_buy = ctk.CTkButton(self.container)
-                    self.btn_sell = ctk.CTkButton(self.container)
+                    self.container.place(relx=0.01, rely=0.025) # Placement et taille à refaire pour la nouvelle façon de gérer ça
+
+                    #self.image = ctk.CTkImage()
+
+                    self.label = ctk.CTkLabel(self.container, text=f'{self.name} : {self.price}')
+                    self.label.place(relx=0.1, rely=0.6)
+
+                    self.btn_buy = ctk.CTkButton(self.container, 70, text="Buy")
+                    self.btn_buy.place(relx=0.1, rely=0.75)
+
+                    self.btn_sell = ctk.CTkButton(self.container, 70, text="Sell")
+                    self.btn_sell.place(relx=0.55, rely=0.75)
 
             def __init__(self, frame_ref : ctk.CTkFrame):
                 
                 self.frame_ref = frame_ref
-                self.obj_container = None
-                self.elements = {}
+                self.obj_container : None | ctk.CTkFrame = None
+                self.shift = 0
+                self.elements = {
+            "stylo" : 5,
+            "Bouteille" : 20,
+            "Chaise" : 50,
+            "Chaise (Sophistiquée)" : 800,
+            "Samsung 2TM" : 500,
+            "Ordinateur Fixe" : 4000,
+            "Ordinateur Portatif" : 1500,
+            "Ordinateur Quantique" : 3.2,
+            "camionnnn" : 200000,
+            "voiture (Sophistiquée)" : 500000,
+            "Maison" : 800000,
+            "The legend of Zelda Souvenir d'Enfance - Matthieu Meriot" : 5,
+            "Planètes": 1e8,
+            "gachettes pour manettes": 36,
+            'des touches "cap lock"': 280,
+            "de pixel": 700000,
+            "éléments de surprise": 8e10,
+            "Mona Lisa": 16,
+            "la lettre alpha": 1200,
+            "cheveux de Frida Kaloh": 98000,
+            "iphon XX": 2.5,
+            "chemise de Charles": 67000,
+            "boeing 732": 70000,
+            "être humain de droite": 12000,
+            "La chaine Vilbrequin": 5000000
+        }
 
             def update_elements(self, elements):  self.elements = elements
 
             def remove_marketplace(self):
                 if self.obj_container != None: self.obj_container.destroy()
 
-            def add_marketplace(self):
+            def rs_cycle_objs(self):
+                
+                """
+                Change l'objet actuel pour celui à sa droite.
+                """
+
+                self.shift = self.shift + 1 if self.shift < len(self.elements) - 1 else 0
+                self.add_marketplace(True)
+
+            def ls_cycle_objs(self):
+
+                """
+                Change l'objet actuel pour celui à sa gauche.
+                """
+
+                self.shift = self.shift - 1 if self.shift > 0 else len(self.elements) - 1
+                self.add_marketplace(True)
+
+            def add_marketplace(self, update : bool = False):
 
                 """
                 Ajoute le marketplace à l'écran lorsque l'on est dans la tab elements
                 """
                 
-                if self.obj_container != None: return
+                if not update:
+                    self.obj_container = ctk.CTkFrame(self.frame_ref, 1300, 700)
+                    self.obj_container.place(relx=0.1, rely=0.1)
+                    
+                    self.btn_rs_cycle = ctk.CTkButton(self.obj_container, width=28, height=28, text="->", command=self.rs_cycle_objs)
+                    self.btn_rs_cycle.place(relx=.96, rely=0.925)
 
-                self.obj_container = ctk.CTkScrollableFrame(self.frame_ref, 600, 400)
+                    self.btn_ls_cycle = ctk.CTkButton(self.obj_container, width=28, height=28, text="<-", command=self.ls_cycle_objs)
+                    self.btn_ls_cycle.place(relx=.90, rely=0.925)
 
-                for obj in self.elements.keys():
-                    self.add_object([obj, self.elements[obj]])
+                # Ajoute l'objet à l'écran
+                obj = list(self.elements.keys())[self.shift]
+                self.add_object([obj, self.elements[obj]])
 
             def add_object(self, obj_details : list):
                 
@@ -117,7 +178,6 @@ class UserInterface(ctk.CTk):
                 1 -> price
                 """
 
-                # Ajouter mise en place des variables pour mettre l'image, le nom, ...
                 self.__Object(self.obj_container, obj_details[0], obj_details[1])
         
         class __Tab_Generator:
