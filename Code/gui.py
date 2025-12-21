@@ -1,5 +1,6 @@
 
 import customtkinter as ctk
+from PIL import Image
 
 class UserInterface(ctk.CTk):
 
@@ -80,19 +81,27 @@ class UserInterface(ctk.CTk):
 
                 def construct_object(self):
                     
-                    self.container = ctk.CTkFrame(self.master_container)
-                    self.container.place(relx=0.01, rely=0.025) # Placement et taille à refaire pour la nouvelle façon de gérer ça
+                    self.container = ctk.CTkFrame(self.master_container, 870, 620)
+                    self.container.place(relx=0.5, rely=0.5, anchor="center")
 
-                    #self.image = ctk.CTkImage()
+                    self.image = ctk.CTkImage(light_image=Image.open('Images/Elements_Placeholder.jpg'),
+                                              dark_image=Image.open('Images/Elements_Placeholder.jpg'),
+                                              size=(480,480))
 
-                    self.label = ctk.CTkLabel(self.container, text=f'{self.name} : {self.price}')
-                    self.label.place(relx=0.1, rely=0.6)
+                    self.img_label = ctk.CTkLabel(self.container, text='', anchor="center", image=self.image)
+                    self.img_label.place(relx=0.1, rely=0.1)
 
-                    self.btn_buy = ctk.CTkButton(self.container, 70, text="Buy")
-                    self.btn_buy.place(relx=0.1, rely=0.75)
+                    self.label = ctk.CTkLabel(self.container, anchor="center", text=f'Nom : {self.name} \n Prix : {self.price}€', font=('Arial', 24), wraplength=200)
+                    self.label.place(relx=0.725, rely=0.3)
 
-                    self.btn_sell = ctk.CTkButton(self.container, 70, text="Sell")
-                    self.btn_sell.place(relx=0.55, rely=0.75)
+                    self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy")
+                    self.btn_buy.place(relx=0.75, rely=0.6)
+
+                    self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell")
+                    self.btn_sell.place(relx=0.85, rely=0.6)
+
+                def update_object(self, name : str, price : float) -> None:
+                    ...
 
             def __init__(self, frame_ref : ctk.CTkFrame):
                 
@@ -160,11 +169,13 @@ class UserInterface(ctk.CTk):
                     self.obj_container = ctk.CTkFrame(self.frame_ref, 1300, 700)
                     self.obj_container.place(relx=0.1, rely=0.1)
                     
-                    self.btn_rs_cycle = ctk.CTkButton(self.obj_container, width=28, height=28, text="->", command=self.rs_cycle_objs)
-                    self.btn_rs_cycle.place(relx=.96, rely=0.925)
+                    self.btn_rs_cycle = ctk.CTkButton(self.obj_container, width=64, height=64, text="->", anchor="center", command=self.rs_cycle_objs)
+                    self.btn_rs_cycle.place(relx=0.85, rely=0.5)
 
-                    self.btn_ls_cycle = ctk.CTkButton(self.obj_container, width=28, height=28, text="<-", command=self.ls_cycle_objs)
-                    self.btn_ls_cycle.place(relx=.90, rely=0.925)
+                    self.btn_ls_cycle = ctk.CTkButton(self.obj_container, width=64, height=64, text="<-", anchor="center", command=self.ls_cycle_objs)
+                    self.btn_ls_cycle.place(relx=.1, rely=0.5)
+
+                # Lors de l'update, ça serait mieux d'update l'objet avec les nouvelles valeurs plutôt que de le reconstruire comme un bz nan ?
 
                 # Ajoute l'objet à l'écran
                 obj = list(self.elements.keys())[self.shift]
