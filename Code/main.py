@@ -1,10 +1,5 @@
-from logic import *
-from joueur import *
-from elements import *
-from upgrades import *
-from courbe import *
-from events import *
-from gui import * # type: ignore
+from logic import Game
+from gui import UserInterface
 
 class App:
     def __init__(self):
