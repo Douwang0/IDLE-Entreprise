@@ -70,6 +70,8 @@ class Element:
         temp = self.price
         self.price += (self.price/100) * mod
         return temp
+    def instaget(self, nb):
+        self.qty += nb
 
 
 class Kayou(Element):

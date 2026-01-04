@@ -69,3 +69,5 @@ class Player:
         :param mod: Int multipliant les gains globaux
         """
         self.bonus += mod
+    def divisargent(self):
+        self.__argent / 2
