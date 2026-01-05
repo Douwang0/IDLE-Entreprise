@@ -1,5 +1,6 @@
 
 import customtkinter as ctk
+from elements import Element, Kayou, Chemise
 from PIL import Image
 
 class UserInterface(ctk.CTk):
@@ -56,14 +57,18 @@ class UserInterface(ctk.CTk):
         """
         Fonction permettant la gestion du jeu.
         """
-    
-        self.game.update()
 
-        print(
-            self.game.tick,
-            self.game.day,
-            self.game.daylenth
-        )
+        if self.game_screen.game_has_begun:
+            
+            self.game_screen.marketplace.update_elements(self.game.elements)
+
+            self.game.update()
+
+            print(
+                self.game.tick,
+                self.game.day,
+                self.game.daylenth
+            )
 
         self.after(1000, self.game_update)
 
@@ -119,8 +124,8 @@ class UserInterface(ctk.CTk):
             # Référence au widget principal
             self.master = master
             
-            self.elements = {}
             self.is_event_on : bool = False
+            self.game_has_begun : bool = False
         
         def start_game(self):
 
@@ -145,6 +150,8 @@ class UserInterface(ctk.CTk):
             # Mise en place des tabs
             self.current_tab : int = -1
             self.switch_tab(0)
+
+            self.game_has_begun = True
 
         def switch_tab(self, new_tab : int) -> None:
 
@@ -248,87 +255,23 @@ class UserInterface(ctk.CTk):
             scroll_animation()
 
         class __Tab_Stats:
+            
+            def __init__(self):
+                pass
 
             class __Graphs:
 
                 def __init__(self) -> None:
                     pass
-            
-            def __init__(self):
-                pass
 
         class __Tab_Elements:
-
-            class __Object:
-
-                def __init__(self, master, name : str, price : float) -> None:
-                    
-                    self.master_container = master
-                    self.name : str = name
-                    self.price : float = price
-
-                    self.construct_object()
-
-                def construct_object(self):
-                    
-                    self.container = ctk.CTkFrame(self.master_container, 870, 620)
-                    self.container.place(relx=0.5, rely=0.5, anchor="center")
-
-                    self.image = ctk.CTkImage(light_image=Image.open('Images/Elements_Placeholder.jpg'),
-                                              dark_image=Image.open('Images/Elements_Placeholder.jpg'),
-                                              size=(480,480))
-
-                    self.img_label = ctk.CTkLabel(self.container, text='', anchor="center", image=self.image)
-                    self.img_label.place(relx=0.1, rely=0.1)
-
-                    self.label = ctk.CTkLabel(self.container, anchor="center", text=f'Nom : {self.name} \n Prix : {self.price}€', font=('Arial', 24), wraplength=200)
-                    self.label.place(relx=0.725, rely=0.3)
-
-                    self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy")
-                    self.btn_buy.place(relx=0.75, rely=0.6)
-
-                    self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell")
-                    self.btn_sell.place(relx=0.85, rely=0.6)
-
-                def update_object(self, name : str, price : float) -> None:
-                    
-                    self.name, self.price = name, price
-                    self.label.configure(text=f'Nom : {self.name} \n Prix : {self.price}€')
-
-                    self.label.update()
 
             def __init__(self, frame_ref : ctk.CTkFrame):
                 
                 self.frame_ref = frame_ref
                 self.obj_container : None | ctk.CTkFrame = None
                 self.shift = 0
-                self.elements = {
-            "stylo" : 5,
-            "Bouteille" : 20,
-            "Chaise" : 50,
-            "Chaise (Sophistiquée)" : 800,
-            "Samsung 2TM" : 500,
-            "Ordinateur Fixe" : 4000,
-            "Ordinateur Portatif" : 1500,
-            "Ordinateur Quantique" : 3.2,
-            "camionnnn" : 200000,
-            "voiture (Sophistiquée)" : 500000,
-            "Maison" : 800000,
-            "The legend of Zelda Souvenir d'Enfance - Matthieu Meriot" : 5,
-            "Planètes": 1e8,
-            "gachettes pour manettes": 36,
-            'des touches "cap lock"': 280,
-            "de pixel": 700000,
-            "éléments de surprise": 8e10,
-            "Mona Lisa": 16,
-            "la lettre alpha": 1200,
-            "cheveux de Frida Kaloh": 98000,
-            "iphon XX": 2.5,
-            "chemise de Charles": 67000,
-            "boeing 732": 70000,
-            "être humain de droite": 12000,
-            "La chaine Vilbrequin": 5000000
-        }
+                self.elements = {}
 
             def update_elements(self, elements):  self.elements = elements
 
@@ -386,16 +329,54 @@ class UserInterface(ctk.CTk):
                 """
 
                 self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1])
+            
+            class __Object:
+
+                def __init__(self, master, name : str, price : float) -> None:
+                    
+                    self.master_container = master
+                    self.name : str = name
+                    self.price : float = price
+
+                    self.construct_object()
+
+                def construct_object(self):
+                    
+                    self.container = ctk.CTkFrame(self.master_container, 870, 620)
+                    self.container.place(relx=0.5, rely=0.5, anchor="center")
+
+                    self.image = ctk.CTkImage(light_image=Image.open('Images/Elements_Placeholder.jpg'),
+                                              dark_image=Image.open('Images/Elements_Placeholder.jpg'),
+                                              size=(480,480))
+
+                    self.img_label = ctk.CTkLabel(self.container, text='', anchor="center", image=self.image)
+                    self.img_label.place(relx=0.1, rely=0.1)
+
+                    self.label = ctk.CTkLabel(self.container, anchor="center", text=f'Nom : {self.name} \n Prix : {self.price}€', font=('Arial', 24), wraplength=200)
+                    self.label.place(relx=0.725, rely=0.3)
+
+                    self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy")
+                    self.btn_buy.place(relx=0.75, rely=0.6)
+
+                    self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell")
+                    self.btn_sell.place(relx=0.85, rely=0.6)
+
+                def update_object(self, name : str, price : float) -> None:
+                    
+                    self.name, self.price = name, price
+                    self.label.configure(text=f'Nom : {self.name} \n Prix : {self.price}€')
+
+                    self.label.update()
         
         class __Tab_Generator:
+            
+            def __init__(self):
+                pass
 
             class __Field:
 
                 def __init__(self) -> None:
                     pass
-            
-            def __init__(self):
-                pass
 
 if __name__ == "__main__":
 
