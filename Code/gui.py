@@ -185,7 +185,7 @@ class UserInterface(ctk.CTk):
         def update_text_sidebar(self, game_ref):
             self.game = game_ref
             self.money_amount.configure(text = f"Argent : {round(self.game.player.mget(),2)}")
-            self.impot_amount.configure(text = f"Taux d'Impots : {self.game.impots * 100}%")
+            self.impot_amount.configure(text = f"Taux d'Impots : {round(self.game.impots * 100,2)}%")
             self.day.configure(text = f" Jour {self.game.day}")
             self.time_left.configure(text = f"Temps Restant : {int(self.game.daylenth-self.game.tick)}s ")
         def switch_tab(self, new_tab : int) -> None:
