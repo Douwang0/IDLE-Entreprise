@@ -35,6 +35,7 @@ class Element:
         """
         self.courbe.update()
         self.price = self.valeur * self.courbe.getvar() * 2
+        self.price = round(self.price,2)
 
     def sell(self, nbr):
         """

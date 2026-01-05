@@ -68,7 +68,8 @@ class UserInterface(ctk.CTk):
             print(
                 self.game.tick,
                 self.game.day,
-                self.game.daylenth
+                self.game.daylenth,
+                self.game.player.mget()
             )
 
         self.after(1000, self.game_update)
@@ -372,18 +373,36 @@ class UserInterface(ctk.CTk):
                     self.image = ctk.CTkImage(light_image=Image.open('Images/Elements_Placeholder.jpg'),
                                               dark_image=Image.open('Images/Elements_Placeholder.jpg'),
                                               size=(480,480))
-
+                    
                     self.img_label = ctk.CTkLabel(self.container, text='', anchor="center", image=self.image)
                     self.img_label.place(relx=0.1, rely=0.1)
 
-                    self.label = ctk.CTkLabel(self.container, anchor="center", text=f'Nom : {self.name} \n Prix : {self.price}€', font=('Arial', 24), wraplength=200)
-                    self.label.place(relx=0.725, rely=0.3)
+                    if self.name != "kayou":
+                        self.label = ctk.CTkLabel(self.container, anchor="center", text=f'Nom : {self.name} \n Prix : {self.price}€', font=('Arial', 24), wraplength=200)
+                        self.label.place(relx=0.725, rely=0.3)
 
-                    self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy")
-                    self.btn_buy.place(relx=0.75, rely=0.6)
+                        self.amount_entry = ctk.CTkEntry(
+                            self.container,
+                            width=120,
+                            placeholder_text="Quantité"
+                        )
+                        self.amount_entry.insert(0, "1")
+                        self.amount_entry.place(relx=0.75, rely=0.5, anchor="center")
 
-                    self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell")
-                    self.btn_sell.place(relx=0.85, rely=0.6)
+                        self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy", command=self.buy_object)
+                        self.btn_buy.place(relx=0.75, rely=0.6)
+
+                        self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell", command=self.sell_object)
+                        self.btn_sell.place(relx=0.85, rely=0.6)
+                    else :
+                        self.label = ctk.CTkLabel(self.container, anchor="center", text=f"Nom : {self.name} \n Prix : {self.price}€ Mais Gratuit a L'Achat", font=('Arial', 24), wraplength=200)
+                        self.label.place(relx=0.725, rely=0.3)
+
+                        self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy", command=self.game_ref.buy(self.name,"kayou"))
+                        self.btn_buy.place(relx=0.75, rely=0.6)
+
+                        self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell", command=self.game_ref.sell(self.name,"kayou"))
+                        self.btn_sell.place(relx=0.85, rely=0.6)
 
                 def update_object(self, name : str, price : float) -> None:
                     
@@ -391,6 +410,30 @@ class UserInterface(ctk.CTk):
                     self.label.configure(text=f'Nom : {self.name} \n Prix : {self.price}€')
 
                     self.label.update()
+
+                def buy_object(self):
+                    try:
+                        amount = int(self.amount_entry.get())
+                    except ValueError:
+                        print("Valeur invalide")
+                        return
+
+                    print(f"BUY {amount} x {self.name}")
+                    
+                    self.game_ref.buy(self.name,"element", amount)
+
+
+                def sell_object(self):
+                    try:
+                        amount = int(self.amount_entry.get())
+                    except ValueError:
+                        print("Valeur invalide")
+                        return
+
+                    print(f"SELL {amount} x {self.name}")
+                    # Example:
+                    self.game_ref.sell(self.name,"element", amount)
+
         
         class __Tab_Generator:
             
