@@ -25,9 +25,12 @@ class UserInterface(ctk.CTk):
         self.title_screen = self.__TitleScreen(self)
         # Initialisation écran jeu
         self.game_screen = self.__GameScreen(self)
-
+    
+    def run(self): 
+        """
+        Lance la boucle principale de tkinter
+        """
         self.game_update()
-
         self.mainloop()
 
     def set_game_ref(self, game_ref):
@@ -37,39 +40,30 @@ class UserInterface(ctk.CTk):
         self.game = game_ref
 
     def clear_screen(self):
-
         """
         Supprime tous les widgets présents sur l'écran.
         """
-
         for widget in self.winfo_children(): widget.destroy()
 
     def switch_to_gameplay(self):
-
         """
         Fonction faisant la transition entre l'écran titre et l'écran de jeu.
         """
-
         self.title_screen.clear_title_screen()
         self.game_screen.start_game()
     
     def game_update(self):
-        
         """
         Fonction permettant la gestion du jeu.
         """
+    
+        self.game.update()
 
-        # Vérifie l'existence de l'attribue game
-        if hasattr(self, 'game'):
-            
-            if self.game:
-                self.game.update()
-
-                print(
-                    self.game.tick,
-                    self.game.day,
-                    self.game.daylenth
-                )
+        print(
+            self.game.tick,
+            self.game.day,
+            self.game.daylenth
+        )
 
         self.after(1000, self.game_update)
 

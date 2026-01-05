@@ -5,8 +5,6 @@ Module définissant la classe Player, représentant le joueur.
 Il gère l'argent, les gains et les transactions financières.
 """
 
-from logic import Game
-
 
 class Player:
     """
@@ -16,7 +14,7 @@ class Player:
     et interagit avec l'économie du jeu.
     """
 
-    def __init__(self, game: Game):
+    def __init__(self, game):
         self.game = game
         self.__argent = 0    # Argent du joueur (privé)
         self.bonus = 1       # Bonus multiplicateur de gains

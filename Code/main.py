@@ -6,6 +6,7 @@ class App:
         self.game = Game()
         self.ui = UserInterface()
         self.ui.set_game_ref(self.game)
+        self.ui.run()
         
 if __name__ == "__main__":
     App()

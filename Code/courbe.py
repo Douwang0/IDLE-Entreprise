@@ -17,7 +17,12 @@ class Courbe:
         elif self.var > 1:
             self.evolution = -1
         else:
-            self.var *= rand.randint((1  * self.evolution), 5  * self.evolution) / 100
+            a = 1  * self.evolution
+            b = 5  * self.evolution
+            if a < b:
+                self.var *= rand.randint(a, b) / 100
+            else:
+                self.var *= rand.randint(b, a) / 100
             self.event -= 1
     def getvar(self):
         return self.var

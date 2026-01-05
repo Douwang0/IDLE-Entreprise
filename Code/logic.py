@@ -118,7 +118,7 @@ class Game:
             *self.upgrades.values(),
             self.kayou
         )
-        self.allIterable = self.allcollectebles # (*self.allIterable,self.event)
+        self.allIterable = self.allcollectables # (*self.allIterable,self.event)
     def elemget(self, elem):
         return self.elements[elem]
     def update(self):
