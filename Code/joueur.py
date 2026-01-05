@@ -39,6 +39,7 @@ class Player:
         nbr *= self.bonus
         self.__argent += nbr
         self.game.benefices_journee += nbr
+        self.game.chiffre_daffaires += nbr
 
     def msub(self, nbr, force=False) -> bool:
         """
