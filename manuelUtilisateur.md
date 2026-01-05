@@ -18,3 +18,6 @@ Le joueur commence sans argent et doit :
 
 ## Objectif
 Tenir le plus longtemps possible et atteindre le plus grand nombre de jours.
+
+## ATTENTION
+Probleme de library, il faut que le scaling windows soit a 100%
