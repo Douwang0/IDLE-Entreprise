@@ -60,6 +60,7 @@ class UserInterface(ctk.CTk):
 
         if self.game_screen.game_has_begun:
             
+            self.game_screen.marketplace.add_game_ref(self.game)
             self.game_screen.marketplace.update_elements(self.game.elements)
 
             self.game.update()
@@ -274,6 +275,7 @@ class UserInterface(ctk.CTk):
                 self.elements = {}
 
             def update_elements(self, elements):  self.elements = elements
+            def add_game_ref(self, game): self.game = game
 
             def remove_marketplace(self):
                 if self.obj_container != None: self.obj_container.destroy()
@@ -284,7 +286,7 @@ class UserInterface(ctk.CTk):
                 Change l'objet actuel pour celui à sa droite.
                 """
 
-                self.shift = self.shift + 1 if self.shift < len(self.elements) - 1 else 0
+                self.shift = self.shift + 1 if self.shift < len(self.elements.keys()) - 1 else 0
                 self.add_marketplace(True)
 
             def ls_cycle_objs(self):
@@ -293,7 +295,7 @@ class UserInterface(ctk.CTk):
                 Change l'objet actuel pour celui à sa gauche.
                 """
 
-                self.shift = self.shift - 1 if self.shift > 0 else len(self.elements) - 1
+                self.shift = self.shift - 1 if self.shift > 0 else len(self.elements.keys()) - 1
                 self.add_marketplace(True)
 
             def add_marketplace(self, update : bool = False):
@@ -314,11 +316,11 @@ class UserInterface(ctk.CTk):
 
                     # Ajoute l'objet à l'écran
                     obj = list(self.elements.keys())[self.shift]
-                    self.add_object([obj, self.elements[obj]])
+                    self.add_object([obj, self.elements[obj].price])
                 
                 else:
                     obj = list(self.elements.keys())[self.shift]
-                    self.current_obj.update_object(obj, self.elements[obj])
+                    self.current_obj.update_object(obj, self.elements[obj].price)
 
             def add_object(self, obj_details : list):
                 
@@ -328,19 +330,23 @@ class UserInterface(ctk.CTk):
                 1 -> price
                 """
 
-                self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1])
+                self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1], self.game)
             
             class __Object:
 
-                def __init__(self, master, name : str, price : float) -> None:
+                def __init__(self, master, name : str, price : float, game_ref) -> None:
                     
                     self.master_container = master
                     self.name : str = name
                     self.price : float = price
 
+                    self.game_ref = game_ref
+
                     self.construct_object()
 
                 def construct_object(self):
+
+                    print(self.game_ref.tick)
                     
                     self.container = ctk.CTkFrame(self.master_container, 870, 620)
                     self.container.place(relx=0.5, rely=0.5, anchor="center")
