@@ -102,6 +102,7 @@ class Chemise(Element):
         Met à jour le prix en fonction de l'argent du joueur.
         """
         self.price = self.player.mget() + 1
+        self.price = round(self.price,2)
 
     def buy(self, nbr):
         """

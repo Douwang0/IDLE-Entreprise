@@ -61,7 +61,7 @@ class UserInterface(ctk.CTk):
         if self.game_screen.game_has_begun:
             
             self.game_screen.marketplace.add_game_ref(self.game)
-            self.game_screen.marketplace.update_elements(self.game.elements)
+            self.game_screen.marketplace.update_elements({"kayou" : self.game.kayou, **self.game.elements}) # Pas juste self.game.elements car sinon le kayou n'est pas inclus
 
             self.game.update()
 
@@ -304,20 +304,20 @@ class UserInterface(ctk.CTk):
                 """
                 Change l'objet actuel pour celui à sa droite.
                 """
-
+                old = self.shift
                 self.shift = self.shift + 1 if self.shift < len(self.elements.keys()) - 1 else 0
-                self.add_marketplace(True)
+                self.add_marketplace(True, (old == 0 or self.shift == 0) and old != self.shift)
 
             def ls_cycle_objs(self):
 
                 """
                 Change l'objet actuel pour celui à sa gauche.
                 """
-
+                old = self.shift
                 self.shift = self.shift - 1 if self.shift > 0 else len(self.elements.keys()) - 1
-                self.add_marketplace(True)
+                self.add_marketplace(True, (old == 0 or self.shift == 0) and old != self.shift)
 
-            def add_marketplace(self, update : bool = False):
+            def add_marketplace(self, update : bool = False, reload : bool = False):
 
                 """
                 Ajoute le marketplace à l'écran lorsque l'on est dans la tab elements
@@ -337,9 +337,14 @@ class UserInterface(ctk.CTk):
                     obj = list(self.elements.keys())[self.shift]
                     self.add_object([obj, self.elements[obj].price])
                 
-                else:
+                elif not reload:
                     obj = list(self.elements.keys())[self.shift]
                     self.current_obj.update_object(obj, self.elements[obj].price)
+
+                else:
+                    self.rm_object()
+                    obj = list(self.elements.keys())[self.shift]
+                    self.add_object([obj, self.elements[obj].price])
 
             def add_object(self, obj_details : list):
                 
@@ -350,6 +355,10 @@ class UserInterface(ctk.CTk):
                 """
 
                 self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1], self.game)
+            def rm_object(self):
+                if hasattr(self, "current_obj") and self.current_obj is not None:
+                    self.current_obj.destroy_object()  # cleanly destroy the widget
+                    self.current_obj = None            # remove reference
             
             class __Object:
 
@@ -398,10 +407,10 @@ class UserInterface(ctk.CTk):
                         self.label = ctk.CTkLabel(self.container, anchor="center", text=f"Nom : {self.name} \n Prix : {self.price}€ Mais Gratuit a L'Achat", font=('Arial', 24), wraplength=200)
                         self.label.place(relx=0.725, rely=0.3)
 
-                        self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy", command=self.game_ref.buy(self.name,"kayou"))
+                        self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy", command=lambda :self.game_ref.buy(self.name,"kayou"))
                         self.btn_buy.place(relx=0.75, rely=0.6)
 
-                        self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell", command=self.game_ref.sell(self.name,"kayou"))
+                        self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell", command=lambda :self.game_ref.sell(self.name,"kayou"))
                         self.btn_sell.place(relx=0.85, rely=0.6)
 
                 def update_object(self, name : str, price : float) -> None:
@@ -434,7 +443,18 @@ class UserInterface(ctk.CTk):
                     # Example:
                     self.game_ref.sell(self.name,"element", amount)
 
-        
+                def destroy_object(self):
+                    if hasattr(self, "container"):
+                        self.container.destroy()  # destroys frame + all child widgets
+                    # remove references to widgets
+                    self.container = None
+                    self.label = None
+                    self.img_label = None
+                    self.amount_entry = None
+                    self.btn_buy = None
+                    self.btn_sell = None
+
+
         class __Tab_Generator:
             
             def __init__(self):
