@@ -376,7 +376,7 @@ class UserInterface(ctk.CTk):
                 2 -> qty
                 """
 
-                self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1], obj_details[2], self.game)
+                self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1], obj_details[2], self.game, self)
             def rm_object(self):
                 if hasattr(self, "current_obj") and self.current_obj is not None:
                     self.current_obj.destroy_object()  # cleanly destroy the widget
@@ -384,13 +384,13 @@ class UserInterface(ctk.CTk):
             
             class __Object:
 
-                def __init__(self, master, name : str, price : float, qty : int, game_ref) -> None:
+                def __init__(self, master, name : str, price : float, qty : int, game_ref, tab_ref) -> None:
                     
                     self.master_container = master
                     self.name : str = name
                     self.price : float = price
                     self.qty : int = qty
-
+                    self.tab_ref = tab_ref
                     self.game_ref = game_ref
                     self.construct_object()
 
@@ -429,12 +429,14 @@ class UserInterface(ctk.CTk):
                         self.label = ctk.CTkLabel(self.container, anchor="center", text=f"Nom : {self.name} \n Prix : {self.price}€ Mais Gratuit a L'Achat \n Quantitée : {self.qty}", font=('Arial', 24), wraplength=200)
                         self.label.place(relx=0.725, rely=0.3)
 
-                        self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy", command=lambda :self.game_ref.buy(self.name,"kayou"))
+                        self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy", command=lambda :(self.game_ref.buy(self.name,"kayou"),self.update_self()))
                         self.btn_buy.place(relx=0.75, rely=0.6)
 
-                        self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell", command=lambda :self.game_ref.sell(self.name,"kayou"))
+                        self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell", command=lambda :(self.game_ref.sell(self.name,"kayou"),self.update_self()))
                         self.btn_sell.place(relx=0.85, rely=0.6)
-
+                def update_self(self):
+                    print("test")
+                    self.tab_ref.add_marketplace(True)
                 def update_object(self, name : str, price : float, qty : int) -> None:
                     
                     self.name, self.price, self.qty = name, price, qty
@@ -443,6 +445,7 @@ class UserInterface(ctk.CTk):
                     self.label.update()
 
                 def buy_object(self):
+                    self.update_self()
                     try:
                         amount = int(self.amount_entry.get())
                     except ValueError:
@@ -455,6 +458,7 @@ class UserInterface(ctk.CTk):
 
 
                 def sell_object(self):
+                    self.update_self()
                     try:
                         amount = int(self.amount_entry.get())
                     except ValueError:
@@ -516,16 +520,16 @@ class UserInterface(ctk.CTk):
                 3 -> bonus
                 """
 
-                self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1], obj_details[2],obj_details[3], self.game)
+                self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1], obj_details[2],obj_details[3], self.game, self)
             class __Object:
-                def __init__(self, master, name : str, price : float, qty : int, bonus : int, game_ref) -> None:
+                def __init__(self, master, name : str, price : float, qty : int, bonus : int, game_ref, tab_ref) -> None:
                     
                     self.master_container = master
                     self.name : str = name
                     self.price : float = price
                     self.qty : int = qty
                     self.bonus : int = bonus
-
+                    self.tab_ref = tab_ref
                     self.game_ref = game_ref
                     self.construct_object()
                 def construct_object(self):
@@ -559,7 +563,10 @@ class UserInterface(ctk.CTk):
                     self.label.configure(text=f'Nom : {self.name} \n Prix : {self.price}€ \n Quantitée : {self.qty} \n Bonus : {self.bonus}')
 
                     self.label.update()
+                def update_self(self):
+                    self.tab_ref.add_marketplace(True)
                 def buy_object(self):
+                    self.update_self()
                     try:
                         amount = int(self.amount_entry.get())
                     except ValueError:

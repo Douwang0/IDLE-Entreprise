@@ -122,6 +122,8 @@ class Game:
         self.allIterable = self.allcollectables # (*self.allIterable,self.event)
     def elemget(self, elem):
         return self.elements[elem]
+    def upgget(self, upg):
+        return self.upgrades[upg]
     def update(self):
         """
         Met à jour l'état du jeu à chaque tick.

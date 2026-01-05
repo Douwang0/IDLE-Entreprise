@@ -9,4 +9,4 @@ class App:
         self.ui.run()
         
 if __name__ == "__main__":
-    App()
+    App()   
