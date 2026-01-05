@@ -5,7 +5,7 @@ Module définissant la classe Player, représentant le joueur.
 Il gère l'argent, les gains et les transactions financières.
 """
 
-from logic import Game
+from logic import *
 
 
 class Player:
