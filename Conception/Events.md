@@ -25,7 +25,6 @@ Le Ragnarok débute : vous n'avez plus d'impôts ni de demande sur le marché ta
 
 Les aliens débarquent : baisse du prix des employés
 -> reste pour toujours 
-
 Il est lundi
 -> ne peut pas se dérouler lundi
 
@@ -38,6 +37,8 @@ Evasion fiscale à Jérusalem : ne payez plus d'impôts
 Les gilets jaunes font leur retours : le prix de l'essence augmente 
 -> ne fait rien pour le joueur 
 
+Votre femme vous a trompé, elle prend les enfants et 50% de vos biens, vous devez maintenant payer la pension alimentaire jusqua votre mort. (-50% tout, -10% argents par jour)
+debloque "théorie de l'internet mort"
 Vous découvrez la théorie de l'internet mort 
 -> débloque l'event "Vous publiez un article sur cette théorie et devenez connus"
 Vous publiez un article sur cette théorie et devenez connus
@@ -76,8 +77,7 @@ Votre chat perd une de ses vie, il en reste encore beaucoup... (+4% impot)
 
 Vos employés puent, les actionnaires sont désinteressés (-10% actions) pour la journée.
 
-Votre femme vous a trompé, elle prend les enfants et 50% de vos biens, vous devez maintenant payer la pension alimentaire jusqua votre mort. (-50% tout, -10% argents par jour)
-debloque "votre femme revient"
+
 
 "EEESSSEEEFEEERRR", sfr ne founit plus internet.
 -> Nous ne sommes pas chez sfr

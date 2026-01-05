@@ -16,7 +16,7 @@ class Player:
     et interagit avec l'économie du jeu.
     """
 
-    def __init__(self, game: Game):
+    def __init__(self, game):
         self.game = game
         self.__argent = 0    # Argent du joueur (privé)
         self.bonus = 1       # Bonus multiplicateur de gains
@@ -69,3 +69,5 @@ class Player:
         :param mod: Int multipliant les gains globaux
         """
         self.bonus += mod
+    def divisargent(self):
+        self.__argent / 2

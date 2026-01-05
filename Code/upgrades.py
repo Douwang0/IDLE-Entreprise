@@ -25,5 +25,5 @@ class Employes():
             self.augment *= 10
     def rendmodif(self, mod):
         temp = self.bonus
-        self.bonus += mod
+        self.bonus += (self.bonus / 100) * mod
         return temp
