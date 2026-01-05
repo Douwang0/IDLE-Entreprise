@@ -39,7 +39,7 @@ class Courbe:
             self.eventcourbe()
 
         # Intensité du mouvement (très faible = stabilité)
-        amplitude = rand.uniform(0.001, 0.01)
+        amplitude = rand.uniform(0.01, 0.1)
 
         # Application de l'évolution (+1 ou -1)
         self.var += amplitude * self.evolution
