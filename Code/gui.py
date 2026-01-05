@@ -59,11 +59,13 @@ class UserInterface(ctk.CTk):
         """
 
         if self.game_screen.game_has_begun:
-            
+            # Marketplace
             self.game_screen.marketplace.add_game_ref(self.game)
             self.game_screen.marketplace.update_elements({"kayou" : self.game.kayou, **self.game.elements}) # Pas juste self.game.elements car sinon le kayou n'est pas inclus
             if self.game_screen.marketplace.object_exists() and self.game_screen.current_tab == 1:
                 self.game_screen.marketplace.add_marketplace(True)
+            # Side bar
+            self.game_screen.update_text_sidebar(self.game)
             self.game.update()
 
             print(
@@ -126,7 +128,6 @@ class UserInterface(ctk.CTk):
             
             # Référence au widget principal
             self.master = master
-            
             self.is_event_on : bool = False
             self.game_has_begun : bool = False
         
@@ -138,7 +139,7 @@ class UserInterface(ctk.CTk):
             self.side_bar.grid(row=0, column=0, padx=10, pady=(10,10), sticky="nsw")
 
             # Ajout des infos de gameplay sur la side bar
-            self.money_amount = ctk.CTkLabel(self.side_bar, text="money")
+            self.money_amount = ctk.CTkLabel(self.side_bar, text="Money")
             self.money_amount.place(relx=0.1, rely=0.8, anchor="center")
 
             self.mps_amount = ctk.CTkLabel(self.side_bar, text="mps")
@@ -171,7 +172,13 @@ class UserInterface(ctk.CTk):
             self.switch_tab(0)
 
             self.game_has_begun = True
-
+        def update_text_sidebar(self, game_ref):
+            self.game = game_ref
+            self.money_amount.configure(text = f"Argent : {self.game.player.mget()}")
+            self.mps_amount.configure(text=f"ApS : {self.game.mps}")
+            self.impot_amount.configure(text = f"Taux d'Impots : {self.game.impots * 100}%")
+            self.day.configure(text = f" Jour {self.game.day}")
+            self.time_left.configure(text = f"Temps Restant : {int(self.game.daylenth-self.game.tick)}s ")
         def switch_tab(self, new_tab : int) -> None:
 
             """
@@ -373,7 +380,6 @@ class UserInterface(ctk.CTk):
                     self.qty : int = qty
 
                     self.game_ref = game_ref
-
                     self.construct_object()
 
                 def construct_object(self):

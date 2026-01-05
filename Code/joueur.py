@@ -63,6 +63,7 @@ class Player:
             self.__argent -= nbr
             self.game.benefices_journee -= nbr
             return True
+        
     def bonusmodif(self, mod):
         """
         Docstring for bonusmodif
