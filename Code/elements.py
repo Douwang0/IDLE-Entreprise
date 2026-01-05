@@ -96,6 +96,7 @@ class Chemise(Element):
     def __init__(self, player, value):
         self.player = player
         self.price = 0
+        self.qty = 0
 
     def update(self):
         """

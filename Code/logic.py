@@ -110,7 +110,7 @@ class Game:
 
         # Upgrades
         self.upgrades = {
-            "employes": Employes(100, 10, self.player)
+            "employes": Employes(100, 10, self.player) # Un peu absuser nan les employees ???? TODO
         }
 
         # Regroupement de tous les objets à mettre à jour

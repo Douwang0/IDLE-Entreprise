@@ -52,18 +52,28 @@ class UserInterface(ctk.CTk):
         """
         self.title_screen.clear_title_screen()
         self.game_screen.start_game()
-    
+        self.game_screen.marketplace.add_game_ref(self.game)
+        self.game_screen.marketplace.update_elements({"kayou" : self.game.kayou, **self.game.elements}) # Pas juste self.game.elements car sinon le kayou n'est pas inclus
+        self.game_screen.upgrades.add_game_ref(self.game)
+        self.game_screen.upgrades.update_elements(self.game.upgrades)
     def game_update(self):
         """
         Fonction permettant la gestion du jeu.
         """
 
         if self.game_screen.game_has_begun:
-            # Marketplace
-            self.game_screen.marketplace.add_game_ref(self.game)
-            self.game_screen.marketplace.update_elements({"kayou" : self.game.kayou, **self.game.elements}) # Pas juste self.game.elements car sinon le kayou n'est pas inclus
-            if self.game_screen.marketplace.object_exists() and self.game_screen.current_tab == 1:
-                self.game_screen.marketplace.add_marketplace(True)
+            if self.game_screen.current_tab == 0:
+                pass
+            elif self.game_screen.current_tab == 1:
+                # Marketplace
+                self.game_screen.marketplace.update_elements({"kayou" : self.game.kayou, **self.game.elements}) # Pas juste self.game.elements car sinon le kayou n'est pas inclus
+                if self.game_screen.marketplace.object_exists():
+                    self.game_screen.marketplace.add_marketplace(True)
+            elif self.game_screen.current_tab == 2:
+                # Upgrades
+                self.game_screen.upgrades.update_elements(self.game.upgrades)
+                if self.game_screen.upgrades.object_exists():
+                    self.game_screen.upgrades.add_marketplace(True)
             # Side bar
             self.game_screen.update_text_sidebar(self.game)
             self.game.update()
@@ -142,9 +152,6 @@ class UserInterface(ctk.CTk):
             self.money_amount = ctk.CTkLabel(self.side_bar, text="Money")
             self.money_amount.place(relx=0.1, rely=0.8, anchor="center")
 
-            self.mps_amount = ctk.CTkLabel(self.side_bar, text="mps")
-            self.mps_amount.place(relx=0.1, rely=0.85, anchor="center")
-
             self.impot_amount = ctk.CTkLabel(self.side_bar, text="impot")
             self.impot_amount.place(relx=0.1, rely=0.9, anchor="center")
 
@@ -167,6 +174,9 @@ class UserInterface(ctk.CTk):
             # Ajout Tab Element du Marketplace
             self.marketplace = self.__Tab_Elements(self.main_frame)
 
+            # Ajout Tab Upgrades
+            self.upgrades = self.__Tab_Generator(self.main_frame)
+
             # Mise en place des tabs
             self.current_tab : int = -1
             self.switch_tab(0)
@@ -174,8 +184,7 @@ class UserInterface(ctk.CTk):
             self.game_has_begun = True
         def update_text_sidebar(self, game_ref):
             self.game = game_ref
-            self.money_amount.configure(text = f"Argent : {self.game.player.mget()}")
-            self.mps_amount.configure(text=f"ApS : {self.game.mps}")
+            self.money_amount.configure(text = f"Argent : {round(self.game.player.mget(),2)}")
             self.impot_amount.configure(text = f"Taux d'Impots : {self.game.impots * 100}%")
             self.day.configure(text = f" Jour {self.game.day}")
             self.time_left.configure(text = f"Temps Restant : {int(self.game.daylenth-self.game.tick)}s ")
@@ -198,7 +207,7 @@ class UserInterface(ctk.CTk):
             def update_tab_buttons():
 
                 for widget in self.side_bar.winfo_children(): 
-                    if widget != self.time_left and widget != self.day and widget != self.impot_amount and widget != self.money_amount and widget != self.mps_amount:
+                    if widget != self.time_left and widget != self.day and widget != self.impot_amount and widget != self.money_amount:
                         widget.destroy()
                 
                 # Mise en place des couleurs des boutons
@@ -223,12 +232,14 @@ class UserInterface(ctk.CTk):
 
                 self.current_tab = 0
                 if self.marketplace != None: self.marketplace.remove_marketplace()
+                if self.upgrades != None: self.upgrades.remove_marketplace()
             
             def setup_element():
 
                 print("Switched to Element Frame.")
 
                 self.current_tab = 1
+                if self.upgrades !=None: self.upgrades.remove_marketplace()
                 self.marketplace.add_marketplace()
             
             def setup_generator():
@@ -237,6 +248,7 @@ class UserInterface(ctk.CTk):
 
                 self.current_tab = 2
                 if self.marketplace != None: self.marketplace.remove_marketplace()
+                self.upgrades.add_marketplace()
 
             match new_tab:
 
@@ -465,15 +477,109 @@ class UserInterface(ctk.CTk):
                     self.btn_sell = None
 
 
-        class __Tab_Generator:
-            
-            def __init__(self):
-                pass
+        class __Tab_Generator(__Tab_Elements):
+            def add_marketplace(self, update = False, reload = False):
 
-            class __Field:
+                """
+                Ajoute le marketplace à l'écran lorsque l'on est dans la tab elements
+                """
+                
+                if not update:
+                    self.obj_container = ctk.CTkFrame(self.frame_ref, 1300, 700)
+                    self.obj_container.place(relx=0.1, rely=0.1)
+                    
+                    self.btn_rs_cycle = ctk.CTkButton(self.obj_container, width=64, height=64, text="->", anchor="center", command=self.rs_cycle_objs)
+                    self.btn_rs_cycle.place(relx=0.85, rely=0.5)
 
-                def __init__(self) -> None:
-                    pass
+                    self.btn_ls_cycle = ctk.CTkButton(self.obj_container, width=64, height=64, text="<-", anchor="center", command=self.ls_cycle_objs)
+                    self.btn_ls_cycle.place(relx=.1, rely=0.5)
+
+                    # Ajoute l'objet à l'écran
+                    obj = list(self.elements.keys())[self.shift]
+                    self.add_object([obj, self.elements[obj].price, self.elements[obj].qty,self.elements[obj].bonus])
+                
+                elif not reload:
+                    obj = list(self.elements.keys())[self.shift]
+                    self.current_obj.update_object(obj, self.elements[obj].price, self.elements[obj].qty,self.elements[obj].bonus)
+
+                else:
+                    self.rm_object()
+                    obj = list(self.elements.keys())[self.shift]
+                    self.add_object([obj, self.elements[obj].price, self.elements[obj].qty,self.elements[obj].bonus])
+            def add_object(self, obj_details : list):
+                
+                """
+                obj_details :
+                0 -> name,
+                1 -> price,
+                2 -> qty,
+                3 -> bonus
+                """
+
+                self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1], obj_details[2],obj_details[3], self.game)
+            class __Object:
+                def __init__(self, master, name : str, price : float, qty : int, bonus : int, game_ref) -> None:
+                    
+                    self.master_container = master
+                    self.name : str = name
+                    self.price : float = price
+                    self.qty : int = qty
+                    self.bonus : int = bonus
+
+                    self.game_ref = game_ref
+                    self.construct_object()
+                def construct_object(self):
+
+                    print(self.game_ref.tick)
+                    
+                    self.container = ctk.CTkFrame(self.master_container, 870, 620)
+                    self.container.place(relx=0.5, rely=0.5, anchor="center")
+
+                    self.image = ctk.CTkImage(light_image=Image.open('Images/Elements_Placeholder.jpg'),
+                                              dark_image=Image.open('Images/Elements_Placeholder.jpg'),
+                                              size=(480,480))
+                    
+                    self.img_label = ctk.CTkLabel(self.container, text='', anchor="center", image=self.image)
+                    self.img_label.place(relx=0.1, rely=0.1)
+
+                    self.label = ctk.CTkLabel(self.container, anchor="center", text=f'Nom : {self.name} \n Prix : {self.price}€ \n Quantitée : {self.qty} \n Bonus : {self.bonus}', font=('Arial', 24), wraplength=200)
+                    self.label.place(relx=0.725, rely=0.3)
+                    self.amount_entry = ctk.CTkEntry(
+                        self.container,
+                        width=120,
+                        placeholder_text="Quantité"
+                    )
+                    self.amount_entry.insert(0, "1")
+                    self.amount_entry.place(relx=0.75, rely=0.5, anchor="center")
+                    self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy", command=self.buy_object)
+                    self.btn_buy.place(relx=0.75, rely=0.6)
+                def update_object(self, name : str, price : float, qty : int, bonus : int ) -> None:
+                    
+                    self.name, self.price, self.qty, self.bonus = name, price, qty, bonus
+                    self.label.configure(text=f'Nom : {self.name} \n Prix : {self.price}€ \n Quantitée : {self.qty} \n Bonus : {self.bonus}')
+
+                    self.label.update()
+                def buy_object(self):
+                    try:
+                        amount = int(self.amount_entry.get())
+                    except ValueError:
+                        print("Valeur invalide")
+                        return
+
+                    print(f"BUY {amount} x {self.name}")
+                    
+                    self.game_ref.buy(self.name,"upgrade", amount)
+                def sell_object(self): pass
+                def destroy_object(self):
+                    if hasattr(self, "container"):
+                        self.container.destroy()  # destroys frame + all child widgets
+                    # remove references to widgets
+                    self.container = None
+                    self.label = None
+                    self.img_label = None
+                    self.amount_entry = None
+                    self.btn_buy = None
+                    self.btn_sell = None
 
 if __name__ == "__main__":
 
