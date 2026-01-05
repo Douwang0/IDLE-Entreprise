@@ -56,6 +56,7 @@ class UserInterface(ctk.CTk):
         self.game_screen.marketplace.update_elements({"kayou" : self.game.kayou, **self.game.elements}) # Pas juste self.game.elements car sinon le kayou n'est pas inclus
         self.game_screen.upgrades.add_game_ref(self.game)
         self.game_screen.upgrades.update_elements(self.game.upgrades)
+    
     def game_update(self):
         """
         Fonction permettant la gestion du jeu.
@@ -149,17 +150,17 @@ class UserInterface(ctk.CTk):
             self.side_bar.grid(row=0, column=0, padx=10, pady=(10,10), sticky="nsw")
 
             # Ajout des infos de gameplay sur la side bar
-            self.money_amount = ctk.CTkLabel(self.side_bar, text="Money")
-            self.money_amount.place(relx=0.1, rely=0.8, anchor="center")
+            self.money_amount = ctk.CTkLabel(self.side_bar, text="Money", font=('Arial', 24))
+            self.money_amount.place(relx=0.5, rely=0.8, anchor="center")
 
-            self.impot_amount = ctk.CTkLabel(self.side_bar, text="impot")
-            self.impot_amount.place(relx=0.1, rely=0.9, anchor="center")
+            self.impot_amount = ctk.CTkLabel(self.side_bar, text="impot", font=('Arial', 24))
+            self.impot_amount.place(relx=0.5, rely=0.85, anchor="center")
 
-            self.day = ctk.CTkLabel(self.side_bar, text="day")
-            self.day.place(relx=0.1, rely=0.6, anchor="center")
+            self.day = ctk.CTkLabel(self.side_bar, text="day", font=('Arial', 24))
+            self.day.place(relx=0.5, rely=0.65, anchor="center")
 
-            self.time_left = ctk.CTkLabel(self.side_bar, text="time left")
-            self.time_left.place(relx=0.1, rely=0.7, anchor="center")
+            self.time_left = ctk.CTkLabel(self.side_bar, text="time left", font=('Arial', 24))
+            self.time_left.place(relx=0.5, rely=0.7, anchor="center")
 
             # Setup de la main frame
             self.main_frame = ctk.CTkFrame(self.master, fg_color="#333B46", width=1600, height=1060)
@@ -455,7 +456,6 @@ class UserInterface(ctk.CTk):
                     print(f"BUY {amount} x {self.name}")
                     
                     self.game_ref.buy(self.name,"element", amount)
-
 
                 def sell_object(self):
                     self.update_self()
