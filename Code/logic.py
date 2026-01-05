@@ -76,7 +76,7 @@ class Game:
         self.impots = 0.01
         self.benefices_journee = 0
         self.benefice_hier = 0
-        self.quota = 10000
+        self.quota = 1000
         self.chiffre_daffaires = 0
 
         # Éléments du marché

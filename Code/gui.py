@@ -62,7 +62,8 @@ class UserInterface(ctk.CTk):
             
             self.game_screen.marketplace.add_game_ref(self.game)
             self.game_screen.marketplace.update_elements({"kayou" : self.game.kayou, **self.game.elements}) # Pas juste self.game.elements car sinon le kayou n'est pas inclus
-
+            if self.game_screen.marketplace.object_exists() and self.game_screen.current_tab == 1:
+                self.game_screen.marketplace.add_marketplace(True)
             self.game.update()
 
             print(
@@ -295,6 +296,7 @@ class UserInterface(ctk.CTk):
 
             def update_elements(self, elements):  self.elements = elements
             def add_game_ref(self, game): self.game = game
+            def object_exists(self): return hasattr(self, "current_obj") and self.current_obj is not None
 
             def remove_marketplace(self):
                 if self.obj_container != None: self.obj_container.destroy()
@@ -335,16 +337,16 @@ class UserInterface(ctk.CTk):
 
                     # Ajoute l'objet à l'écran
                     obj = list(self.elements.keys())[self.shift]
-                    self.add_object([obj, self.elements[obj].price])
+                    self.add_object([obj, self.elements[obj].price, self.elements[obj].qty])
                 
                 elif not reload:
                     obj = list(self.elements.keys())[self.shift]
-                    self.current_obj.update_object(obj, self.elements[obj].price)
+                    self.current_obj.update_object(obj, self.elements[obj].price, self.elements[obj].qty)
 
                 else:
                     self.rm_object()
                     obj = list(self.elements.keys())[self.shift]
-                    self.add_object([obj, self.elements[obj].price])
+                    self.add_object([obj, self.elements[obj].price, self.elements[obj].qty])
 
             def add_object(self, obj_details : list):
                 
@@ -352,9 +354,10 @@ class UserInterface(ctk.CTk):
                 obj_details :
                 0 -> name
                 1 -> price
+                2 -> qty
                 """
 
-                self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1], self.game)
+                self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1], obj_details[2], self.game)
             def rm_object(self):
                 if hasattr(self, "current_obj") and self.current_obj is not None:
                     self.current_obj.destroy_object()  # cleanly destroy the widget
@@ -362,11 +365,12 @@ class UserInterface(ctk.CTk):
             
             class __Object:
 
-                def __init__(self, master, name : str, price : float, game_ref) -> None:
+                def __init__(self, master, name : str, price : float, qty : int, game_ref) -> None:
                     
                     self.master_container = master
                     self.name : str = name
                     self.price : float = price
+                    self.qty : int = qty
 
                     self.game_ref = game_ref
 
@@ -387,7 +391,7 @@ class UserInterface(ctk.CTk):
                     self.img_label.place(relx=0.1, rely=0.1)
 
                     if self.name != "kayou":
-                        self.label = ctk.CTkLabel(self.container, anchor="center", text=f'Nom : {self.name} \n Prix : {self.price}€', font=('Arial', 24), wraplength=200)
+                        self.label = ctk.CTkLabel(self.container, anchor="center", text=f'Nom : {self.name} \n Prix : {self.price}€ \n Quantitée : {self.qty}', font=('Arial', 24), wraplength=200)
                         self.label.place(relx=0.725, rely=0.3)
 
                         self.amount_entry = ctk.CTkEntry(
@@ -404,7 +408,7 @@ class UserInterface(ctk.CTk):
                         self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell", command=self.sell_object)
                         self.btn_sell.place(relx=0.85, rely=0.6)
                     else :
-                        self.label = ctk.CTkLabel(self.container, anchor="center", text=f"Nom : {self.name} \n Prix : {self.price}€ Mais Gratuit a L'Achat", font=('Arial', 24), wraplength=200)
+                        self.label = ctk.CTkLabel(self.container, anchor="center", text=f"Nom : {self.name} \n Prix : {self.price}€ Mais Gratuit a L'Achat \n Quantitée : {self.qty}", font=('Arial', 24), wraplength=200)
                         self.label.place(relx=0.725, rely=0.3)
 
                         self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy", command=lambda :self.game_ref.buy(self.name,"kayou"))
@@ -413,10 +417,10 @@ class UserInterface(ctk.CTk):
                         self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell", command=lambda :self.game_ref.sell(self.name,"kayou"))
                         self.btn_sell.place(relx=0.85, rely=0.6)
 
-                def update_object(self, name : str, price : float) -> None:
+                def update_object(self, name : str, price : float, qty : int) -> None:
                     
-                    self.name, self.price = name, price
-                    self.label.configure(text=f'Nom : {self.name} \n Prix : {self.price}€')
+                    self.name, self.price, self.qty = name, price, qty
+                    self.label.configure(text=f'Nom : {self.name} \n Prix : {self.price}€ \n Quantitée : {self.qty}' if self.name != "kayou" else f"Nom : {self.name} \n Prix : {self.price}€ Mais Gratuit a L'Achat \n Quantitée : {self.qty}")
 
                     self.label.update()
 
