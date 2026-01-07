@@ -11,7 +11,7 @@ class Events:
         self.temp2 = [0]
         self.duration = duration
         self.description = desc
-    def action(self, game : Game, dic):
+    def action(self, game, dic):
         dic_event = dic
         if "kayou+" in self.enventtype:
             game.kayou.pricemodif(self.temp) 
@@ -46,7 +46,7 @@ class Events:
         elif "gainparts" in self.enventtype:
             for i in game.elements:
                 game.elements[i].instantget(self.temp)
-    def delete(self, game : Game,dic):
+    def delete(self, game,dic):
         dic_event = dic
         if "timodif" in self.enventtype:
             game.daylenth -= self.temp
