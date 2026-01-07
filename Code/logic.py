@@ -155,7 +155,7 @@ class Game:
         # Condition de défaite
         if self.player.mget() < 0:
             highscore(self.day)
-            # TODO : appeler l'écran de fin de jeu
+            self.gui.game_over()
 
     def buy(self, obj_id, obj_type, nbr=1):
         """
@@ -218,5 +218,3 @@ class Game:
 
         self.day += 1
         self.impots *= 1.05
-
-        # TODO : appeler l'interface de pause / bilan journalier

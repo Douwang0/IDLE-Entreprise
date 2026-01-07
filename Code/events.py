@@ -211,7 +211,6 @@ class EventManager:
         }
 
     def active_event(self,event:Events, gui_ref): #app enverra la référence à game
-        print("test_event")
         try:
             event.action(self.game,self.dic_event)
             gui_ref.game_screen.request_event_animation(event.description)
