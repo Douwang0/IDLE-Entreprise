@@ -1,7 +1,7 @@
 # Conclusion et bilan – Projet NSI
 
 ## Bilan du projet
-Ce projet m’a permis de mettre en pratique :
+Ce projet nous a permis de mettre en pratique :
 - la programmation orientée objet
 - la gestion de projet
 - la structuration du code
@@ -18,6 +18,12 @@ Ce projet m’a permis de mettre en pratique :
 - POO
 - Git et GitHub
 - Documentation technique
+
+## Enseignements pour les futurs projets
+
+- Planifier davantage en amont
+- Tester plus fréquemment
+- Documenter le code dès le début
 
 ## Conclusion
 Le projet est fonctionnel, cohérent avec les attentes NSI

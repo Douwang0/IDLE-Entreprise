@@ -222,9 +222,9 @@ class UserInterface(ctk.CTk):
                 fg_colors = ["#ada43b" if self.current_tab == i else "#424242" for i in range(3)]
                 hover_colors = ["#d2c646" if self.current_tab == i else "#696969" for i in range(3)]
                 
-                stats_btn = ctk.CTkButton(self.side_bar, command=lambda : self.switch_tab(0), text="Pause", width=256, height=64,
+                pause_btn = ctk.CTkButton(self.side_bar, command=lambda : self.switch_tab(0), text="Pause", width=256, height=64,
                                           fg_color=fg_colors[0], hover_color=hover_colors[0], font=("Arial", 16))
-                stats_btn.place(relx=0.5, rely=0.375, anchor="center")
+                pause_btn.place(relx=0.5, rely=0.375, anchor="center")
 
                 elements_btn = ctk.CTkButton(self.side_bar, command=lambda : self.switch_tab(1), text="Elements", width=256, height=64,
                                              fg_color=fg_colors[1], hover_color=hover_colors[1], font=("Arial", 16))
@@ -234,18 +234,64 @@ class UserInterface(ctk.CTk):
                                               fg_color=fg_colors[2], hover_color=hover_colors[2], font=("Arial", 16))
                 generator_btn.place(relx=0.5, rely=0.525, anchor="center")
 
-            def setup_stats():
+            def setup_pause():
 
                 self.current_tab = 0
+
                 self.master.pause = True
                 if self.marketplace != None: self.marketplace.remove_marketplace()
                 if self.upgrades != None: self.upgrades.remove_marketplace()
+
+                game = self.master.game
+
+                clear_main_frame()
+
+                side_text_size = 24
+
+                label_argent = ctk.CTkLabel(self.main_frame, text=f'Argent : {round(game.player.mget(), 2)}€', font=('Arial', side_text_size))
+                label_argent.place(relx=0.2, rely=0.25, anchor="center")
+
+                label_taux_impots = ctk.CTkLabel(self.main_frame, text=f'Taux d\'impots : {round(game.impots * 100, 2)}%', font=('Arial', side_text_size))
+                label_taux_impots.place(relx=0.2, rely=0.35, anchor="center")
+
+                label_jour = ctk.CTkLabel(self.main_frame, text=f'Jour Actuel : {round(game.day, 2)}', font=('Arial', side_text_size))
+                label_jour.place(relx=0.2, rely=0.4, anchor="center")
+
+                label_temps_restant = ctk.CTkLabel(self.main_frame, text=f'Temps restants avant le prochain jour : {round(game.daylenth-game.tick, 2)}s', font=('Arial', side_text_size))
+                label_temps_restant.place(relx=0.2, rely=0.5, anchor="center")
+
+                label_benef = ctk.CTkLabel(self.main_frame, text=f'Bénéfice de la journée : {round(game.benefices_journee, 2)}€', font=('Arial', side_text_size))
+                label_benef.place(relx=0.8, rely=0.25, anchor="center")
+
+                label_quota = ctk.CTkLabel(self.main_frame, text=f'Quota : {round(game.quota * game.impots, 2)}€', font=('Arial', side_text_size))
+                label_quota.place(relx=0.8, rely=0.35, anchor="center")
+
+                label_p_quota = ctk.CTkLabel(self.main_frame, text=f'Pourcentage du quota : {round(100 if game.benefices_journee >= game.quota * game.impots else game.benefices_journee/(game.quota * game.impots) * 100, 2)}%', font=('Arial', side_text_size))
+                label_p_quota.place(relx=0.8, rely=0.4, anchor="center")
+
+                label_CA = ctk.CTkLabel(self.main_frame, text=f'Chiffre_d\'affaires : {round(game.chiffre_daffaires, 2)}€', font=('Arial', side_text_size))
+                label_CA.place(relx=0.8, rely=0.5, anchor="center")
+
+                ref_image_joeur = Image.open("Images/PFP_Joueur.png")
+                image_joueur = ctk.CTkImage(light_image=ref_image_joeur, dark_image=ref_image_joeur, size=(320, 417))
+                image_label = ctk.CTkLabel(self.main_frame, image=image_joueur, text="")
+                image_label.place(relx=0.5, rely=0.35, anchor="center")
+
+                label_user = ctk.CTkLabel(self.main_frame, text=f'{os.getlogin()}', font=('Arial', 64))
+                label_user.place(relx=0.5, rely=0.65, anchor="center")
+
+            def clear_main_frame():
+                """
+                Efface la main frame (par rapport à l'écran de pause)
+                """
+                for widget in self.main_frame.winfo_children(): widget.destroy()
             
             def setup_element():
 
                 self.current_tab = 1
                 self.master.pause = False
-                if self.upgrades !=None: self.upgrades.remove_marketplace()
+                if self.upgrades != None: self.upgrades.remove_marketplace()
+                clear_main_frame()
                 self.marketplace.add_marketplace()
             
             def setup_generator():
@@ -253,11 +299,12 @@ class UserInterface(ctk.CTk):
                 self.current_tab = 2
                 self.master.pause = False
                 if self.marketplace != None: self.marketplace.remove_marketplace()
+                clear_main_frame()
                 self.upgrades.add_marketplace()
 
             match new_tab:
 
-                case 0: setup_stats()
+                case 0: setup_pause()
                 case 1: setup_element()
                 case 2: setup_generator()
 
@@ -309,16 +356,6 @@ class UserInterface(ctk.CTk):
 
             scroll_animation()
 
-
-        class __Tab_Stats:
-            
-            def __init__(self):
-                pass
-
-            class __Graphs:
-
-                def __init__(self) -> None:
-                    pass
 
         class __Tab_Elements:
 

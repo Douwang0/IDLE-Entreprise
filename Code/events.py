@@ -216,7 +216,7 @@ class EventManager:
             event.action(self.game,self.dic_event)
             gui_ref.game_screen.request_event_animation(event.description)
             if event.duration != 0:
-                self.pending_event.append[event,event.duration]
+                self.pending_event.append([event,event.duration])
         except Exception as e: print(e)
 
     def update(self):
