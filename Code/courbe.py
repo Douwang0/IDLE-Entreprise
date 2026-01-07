@@ -10,7 +10,7 @@ import random as rand
 
 class Courbe:
     def __init__(self):
-        self.var = rand.uniform(0, 1)
+        self.var = rand.uniform(0.05, 1)
         self.event = 0
         self.evolution = 0
         self.chance = 0
@@ -45,8 +45,8 @@ class Courbe:
         self.var += amplitude * self.evolution
 
         # Clamp pour rester strictement entre 0 et 1
-        if self.var < 0:
-            self.var = 0
+        if self.var < 0.05:
+            self.var = 0.05
             self.evolution = 1
         elif self.var > 1:
             self.var = 1
