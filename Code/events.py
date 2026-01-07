@@ -124,7 +124,7 @@ class EventManager:
                 pending[0].delete(self.game,self.dic_event)
                 self.pending_event.remove(pending)
         if self.timer <= 0:
-            self.timer = randint(180,240)
+            self.timer = randint(60,120)
             event = None
             while event is None or event.dispo is False:
                 event = self.dic_event[randint(1,34)]

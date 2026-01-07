@@ -262,8 +262,6 @@ class UserInterface(ctk.CTk):
         def request_event_animation(self, event_text: str) -> None:
             """
             Initialisation de l'animation d'un event.
-            
-            event_text: str -> texte de l'event à afficher
             """
 
             def scroll_animation():
@@ -271,22 +269,19 @@ class UserInterface(ctk.CTk):
                 Animation de scroll de droite à gauche des events.
                 Supprime l'event quand il sort de l'écran.
                 """
-
-                # déplacement
                 self.event_loc[0] -= 3
-                self.current_event.place(x=self.event_loc[0], rely=0.25, anchor="nw")
+                self.current_event.place(x=self.event_loc[0], y=self.event_loc[1])
 
-                # largeur du label + position
                 label_width = self.current_event.winfo_width()
 
-                # quand le label est entièrement hors écran à gauche
-                if self.event_loc[0] + label_width < 0 and False: # CONDITION A CHANGER TODO
+                # Le label est complètement sorti à gauche
+                if self.event_loc[0] + label_width < 0:
                     self.current_event.destroy()
                     self.is_event_on = False
                 else:
                     self.current_event.after(5, scroll_animation)
 
-            # si un event est déjà affiché
+            # Détruire l'ancien event s'il existe
             if self.is_event_on:
                 self.current_event.destroy()
                 self.is_event_on = False
@@ -299,18 +294,17 @@ class UserInterface(ctk.CTk):
                 font=("Arial", 64)
             )
 
-            # placement initial hors écran à droite
-            self.current_event.place(relx=1.0, rely=0.25, anchor="nw")
-
-            # forcer le calcul des tailles
+            # Forcer le calcul des dimensions
             self.current_event.update_idletasks()
 
-            self.event_loc = [
-                self.current_event.winfo_x(),
-                self.current_event.winfo_y()
-            ]
+            parent_width = self.event_bar.winfo_width()
+
+            # Placement initial hors écran à droite
+            self.event_loc = [parent_width, self.event_bar.winfo_height() * 0.25]
+            self.current_event.place(x=self.event_loc[0], y=self.event_loc[1])
 
             scroll_animation()
+
 
         class __Tab_Stats:
             
@@ -426,7 +420,7 @@ class UserInterface(ctk.CTk):
 
                     self.image = ctk.CTkImage(light_image=Image.open(self.path),
                                               dark_image=Image.open(self.path),
-                                              size=(480,480))
+                                              size=(400,300))
                     
                     self.img_label = ctk.CTkLabel(self.container, text='', anchor="center", image=self.image)
                     self.img_label.place(relx=0.1, rely=0.1)
@@ -465,7 +459,7 @@ class UserInterface(ctk.CTk):
                     self.label.configure(text=f'Nom : {self.name} \n Prix : {self.price}€ \n Quantitée : {self.qty}' if self.name != "kayou" else f"Nom : {self.name} \n Prix : {self.price}€ Mais Gratuit a L'Achat \n Quantitée : {self.qty}")
                     self.image.configure(light_image=Image.open(self.path),
                                               dark_image=Image.open(self.path),
-                                              size=(480,480))
+                                              size=(400,300))
                     self.label.update()
                 def buy_object(self):
                     self.update_self()
@@ -565,7 +559,7 @@ class UserInterface(ctk.CTk):
 
                     self.image = ctk.CTkImage(light_image=Image.open(image),
                                               dark_image=Image.open(image),
-                                              size=(480,480))
+                                              size=(400,300))
                     
                     self.img_label = ctk.CTkLabel(self.container, text='', anchor="center", image=self.image)
                     self.img_label.place(relx=0.1, rely=0.1)
@@ -588,7 +582,7 @@ class UserInterface(ctk.CTk):
                     image = "Images\Generateur_Employer.png" if self.name == "employes" else 'Images/Elements_Placeholder.jpg'
                     self.image.configure(light_image=Image.open(image),
                                         dark_image=Image.open(image),
-                                        size=(480,480))
+                                        size=(400,300))
 
                     self.label.update()
                 def update_self(self):
