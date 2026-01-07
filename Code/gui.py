@@ -22,7 +22,7 @@ class UserInterface(ctk.CTk):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        self.pause = False
+        self.pause = True
 
         # Initialisation écran titre
         self.title_screen = self.__TitleScreen(self)
@@ -79,10 +79,11 @@ class UserInterface(ctk.CTk):
                 self.game_screen.upgrades.update_elements(self.game.upgrades)
                 if self.game_screen.upgrades.object_exists():
                     self.game_screen.upgrades.add_marketplace(True)
+            
             if not self.pause:
                 # Side bar
-                self.game_screen.update_text_sidebar(self.game)
                 self.game.update()
+                self.game_screen.update_text_sidebar(self.game)
 
         self.after(1000, self.game_update)
 
