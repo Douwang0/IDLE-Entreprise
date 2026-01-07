@@ -125,6 +125,7 @@ class EventManager:
                 self.pending_event.remove(pending)
         if self.timer <= 0:
             self.timer = randint(180,240)
+            event = None
             while event is None or event.dispo is False:
                 event = self.dic_event[randint(1,34)]
             self.active_event(event,self.gui)

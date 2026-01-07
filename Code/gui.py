@@ -1,4 +1,4 @@
-
+import os
 import customtkinter as ctk
 from elements import Element, Kayou, Chemise
 from PIL import Image
@@ -280,7 +280,7 @@ class UserInterface(ctk.CTk):
                 label_width = self.current_event.winfo_width()
 
                 # quand le label est entièrement hors écran à gauche
-                if self.event_loc[0] + label_width < 0:
+                if self.event_loc[0] + label_width < 0 and False: # CONDITION A CHANGER TODO
                     self.current_event.destroy()
                     self.is_event_on = False
                 else:
@@ -361,6 +361,10 @@ class UserInterface(ctk.CTk):
                 """
                 Ajoute le marketplace à l'écran lorsque l'on est dans la tab elements
                 """
+                image = f"Images/{self.shift}.png"
+                if not os.path.isfile(image):
+                    print("pas d'image")
+                    image = "Images\Elements_Placeholder.jpg"
                 
                 if not update:
                     self.obj_container = ctk.CTkFrame(self.frame_ref, 1300, 700)
@@ -374,27 +378,27 @@ class UserInterface(ctk.CTk):
 
                     # Ajoute l'objet à l'écran
                     obj = list(self.elements.keys())[self.shift]
-                    self.add_object([obj, self.elements[obj].price, self.elements[obj].qty])
+                    self.add_object([obj, self.elements[obj].price, self.elements[obj].qty,image])
                 
                 elif not reload:
                     obj = list(self.elements.keys())[self.shift]
-                    self.current_obj.update_object(obj, self.elements[obj].price, self.elements[obj].qty)
+                    self.current_obj.update_object(obj, self.elements[obj].price, self.elements[obj].qty,image)
 
                 else:
                     self.rm_object()
                     obj = list(self.elements.keys())[self.shift]
-                    self.add_object([obj, self.elements[obj].price, self.elements[obj].qty])
+                    self.add_object([obj, self.elements[obj].price, self.elements[obj].qty,image])
 
             def add_object(self, obj_details : list):
-                
                 """
                 obj_details :
                 0 -> name
                 1 -> price
                 2 -> qty
+                3 -> Image Path
                 """
 
-                self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1], obj_details[2], self.game, self)
+                self.current_obj = self.__Object(self.obj_container, obj_details[0], obj_details[1], obj_details[2], obj_details[3], self.game, self)
             def rm_object(self):
                 if hasattr(self, "current_obj") and self.current_obj is not None:
                     self.current_obj.destroy_object()  # cleanly destroy the widget
@@ -402,7 +406,7 @@ class UserInterface(ctk.CTk):
             
             class __Object:
 
-                def __init__(self, master, name : str, price : float, qty : int, game_ref, tab_ref) -> None:
+                def __init__(self, master, name : str, price : float, qty : int, image_path : str,game_ref, tab_ref) -> None:
                     
                     self.master_container = master
                     self.name : str = name
@@ -410,6 +414,7 @@ class UserInterface(ctk.CTk):
                     self.qty : int = qty
                     self.tab_ref = tab_ref
                     self.game_ref = game_ref
+                    self.path = image_path
                     self.construct_object()
 
                 def construct_object(self):
@@ -419,8 +424,8 @@ class UserInterface(ctk.CTk):
                     self.container = ctk.CTkFrame(self.master_container, 870, 620)
                     self.container.place(relx=0.5, rely=0.5, anchor="center")
 
-                    self.image = ctk.CTkImage(light_image=Image.open('Images/Elements_Placeholder.jpg'),
-                                              dark_image=Image.open('Images/Elements_Placeholder.jpg'),
+                    self.image = ctk.CTkImage(light_image=Image.open(self.path),
+                                              dark_image=Image.open(self.path),
                                               size=(480,480))
                     
                     self.img_label = ctk.CTkLabel(self.container, text='', anchor="center", image=self.image)
@@ -453,15 +458,15 @@ class UserInterface(ctk.CTk):
                         self.btn_sell = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Sell", command=lambda :(self.game_ref.sell(self.name,"kayou"),self.update_self()))
                         self.btn_sell.place(relx=0.85, rely=0.6)
                 def update_self(self):
-                    print("test")
                     self.tab_ref.add_marketplace(True)
-                def update_object(self, name : str, price : float, qty : int) -> None:
+                def update_object(self, name : str, price : float, qty : int, image) -> None:
                     
-                    self.name, self.price, self.qty = name, price, qty
+                    self.name, self.price, self.qty, self.path = name, price, qty, image
                     self.label.configure(text=f'Nom : {self.name} \n Prix : {self.price}€ \n Quantitée : {self.qty}' if self.name != "kayou" else f"Nom : {self.name} \n Prix : {self.price}€ Mais Gratuit a L'Achat \n Quantitée : {self.qty}")
-
+                    self.image.configure(light_image=Image.open(self.path),
+                                              dark_image=Image.open(self.path),
+                                              size=(480,480))
                     self.label.update()
-
                 def buy_object(self):
                     self.update_self()
                     try:
@@ -553,11 +558,13 @@ class UserInterface(ctk.CTk):
 
                     print(self.game_ref.tick)
                     
+                    image = "Images/Generateur_Employer.png" if self.name == "employes" else 'Images/Elements_Placeholder.jpg'
+
                     self.container = ctk.CTkFrame(self.master_container, 870, 620)
                     self.container.place(relx=0.5, rely=0.5, anchor="center")
 
-                    self.image = ctk.CTkImage(light_image=Image.open('Images/Elements_Placeholder.jpg'),
-                                              dark_image=Image.open('Images/Elements_Placeholder.jpg'),
+                    self.image = ctk.CTkImage(light_image=Image.open(image),
+                                              dark_image=Image.open(image),
                                               size=(480,480))
                     
                     self.img_label = ctk.CTkLabel(self.container, text='', anchor="center", image=self.image)
@@ -578,6 +585,10 @@ class UserInterface(ctk.CTk):
                     
                     self.name, self.price, self.qty, self.bonus = name, price, qty, bonus
                     self.label.configure(text=f'Nom : {self.name} \n Prix : {self.price}€ \n Quantitée : {self.qty} \n Bonus : {self.bonus}')
+                    image = "Images\Generateur_Employer.png" if self.name == "employes" else 'Images/Elements_Placeholder.jpg'
+                    self.image.configure(light_image=Image.open(image),
+                                        dark_image=Image.open(image),
+                                        size=(480,480))
 
                     self.label.update()
                 def update_self(self):
