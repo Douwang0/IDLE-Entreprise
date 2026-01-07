@@ -22,6 +22,8 @@ class UserInterface(ctk.CTk):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
+        self.pause = False
+
         # Initialisation écran titre
         self.title_screen = self.__TitleScreen(self)
         # Initialisation écran jeu
@@ -63,7 +65,9 @@ class UserInterface(ctk.CTk):
         """
 
         if self.game_screen.game_has_begun:
+
             if self.game_screen.current_tab == 0:
+                # PAUSE
                 pass
             elif self.game_screen.current_tab == 1:
                 # Marketplace
@@ -75,9 +79,10 @@ class UserInterface(ctk.CTk):
                 self.game_screen.upgrades.update_elements(self.game.upgrades)
                 if self.game_screen.upgrades.object_exists():
                     self.game_screen.upgrades.add_marketplace(True)
-            # Side bar
-            self.game_screen.update_text_sidebar(self.game)
-            self.game.update()
+            if not self.pause:
+                # Side bar
+                self.game_screen.update_text_sidebar(self.game)
+                self.game.update()
 
             print(
                 self.game.tick,
@@ -232,6 +237,7 @@ class UserInterface(ctk.CTk):
                 print("Switched to Stats Frame.")
 
                 self.current_tab = 0
+                self.master.pause = True
                 if self.marketplace != None: self.marketplace.remove_marketplace()
                 if self.upgrades != None: self.upgrades.remove_marketplace()
             
@@ -240,6 +246,7 @@ class UserInterface(ctk.CTk):
                 print("Switched to Element Frame.")
 
                 self.current_tab = 1
+                self.master.pause = False
                 if self.upgrades !=None: self.upgrades.remove_marketplace()
                 self.marketplace.add_marketplace()
             
@@ -248,6 +255,7 @@ class UserInterface(ctk.CTk):
                 print("Switched to Generator Frame.")
 
                 self.current_tab = 2
+                self.master.pause = False
                 if self.marketplace != None: self.marketplace.remove_marketplace()
                 self.upgrades.add_marketplace()
 
@@ -422,8 +430,8 @@ class UserInterface(ctk.CTk):
                                               dark_image=Image.open(self.path),
                                               size=(400,300))
                     
-                    self.img_label = ctk.CTkLabel(self.container, text='', anchor="center", image=self.image)
-                    self.img_label.place(relx=0.1, rely=0.1)
+                    self.img_label = ctk.CTkLabel(self.container, text='', image=self.image)
+                    self.img_label.place(relx=0.35, rely=0.5, anchor="center",)
 
                     if self.name != "kayou":
                         self.label = ctk.CTkLabel(self.container, anchor="center", text=f'Nom : {self.name} \n Prix : {self.price}€ \n Quantitée : {self.qty}', font=('Arial', 24), wraplength=200)
@@ -435,7 +443,7 @@ class UserInterface(ctk.CTk):
                             placeholder_text="Quantité"
                         )
                         self.amount_entry.insert(0, "1")
-                        self.amount_entry.place(relx=0.75, rely=0.5, anchor="center")
+                        self.amount_entry.place(relx=0.75, rely=0.875, anchor="center")
 
                         self.btn_buy = ctk.CTkButton(self.container, 64, 64, anchor="center", text="Buy", command=self.buy_object)
                         self.btn_buy.place(relx=0.75, rely=0.6)
