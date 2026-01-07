@@ -22,7 +22,7 @@ class UserInterface(ctk.CTk):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        self.pause = False
+        self.pause = True
 
         # Initialisation écran titre
         self.title_screen = self.__TitleScreen(self)
@@ -58,6 +58,25 @@ class UserInterface(ctk.CTk):
         self.game_screen.marketplace.update_elements({"kayou" : self.game.kayou, **self.game.elements}) # Pas juste self.game.elements car sinon le kayou n'est pas inclus
         self.game_screen.upgrades.add_game_ref(self.game)
         self.game_screen.upgrades.update_elements(self.game.upgrades)
+
+    def game_over(self):
+
+        self.clear_screen()
+
+        f = open("highscore.txt")
+        with f:
+            HC = int(f.read())
+        f.close()
+        
+        GO_frame = ctk.CTkFrame(self.master, width=1920, height=1080, corner_radius=10, fg_color="gray")
+        GO_frame.place(relx=0.5, rely=0.5, anchor="center")
+        GO_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+
+        hc = ctk.CTkLabel(GO_frame, text=f'Game Over !\n Score : {self.game.day} | High Score : {HC}',width=256, height=64, corner_radius=16, font=("Arial", 64))
+        hc.place(relx=0.5, rely=0.45, anchor="center")
+
+        exit_btn = ctk.CTkButton(GO_frame, command=lambda : self.destroy(), text="End Game", width=256, height=64, fg_color="#40008f", hover_color="#6202d7", font=("Arial", 16))
+        exit_btn.place(relx=0.5, rely=0.55, anchor="center")
     
     def game_update(self):
         """
@@ -79,10 +98,11 @@ class UserInterface(ctk.CTk):
                 self.game_screen.upgrades.update_elements(self.game.upgrades)
                 if self.game_screen.upgrades.object_exists():
                     self.game_screen.upgrades.add_marketplace(True)
+            
             if not self.pause:
                 # Side bar
-                self.game_screen.update_text_sidebar(self.game)
                 self.game.update()
+                self.game_screen.update_text_sidebar(self.game)
 
         self.after(1000, self.game_update)
 
@@ -120,11 +140,6 @@ class UserInterface(ctk.CTk):
         
         def clear_title_screen(self):
             for widget in self.title_screen_frame.winfo_children(): widget.destroy()
-    
-    class __EndScreen:
-
-        def __init__(self) -> None:
-            pass
 
     class __GameScreen:
 
