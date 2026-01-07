@@ -186,14 +186,23 @@ class UserInterface(ctk.CTk):
             # Mise en place des tabs
             self.current_tab : int = -1
             self.switch_tab(0)
+            self.update_text_sidebar(self.master.game)
 
             self.game_has_begun = True
+
         def update_text_sidebar(self, game_ref):
+            """
+            Update les éléments de la side bar.
+            
+            game_ref : référence au Game.
+            """
+
             self.game = game_ref
             self.money_amount.configure(text = f"Argent : {round(self.game.player.mget(),2)}")
             self.impot_amount.configure(text = f"Taux d'Impots : {round(self.game.impots * 100,2)}%")
             self.day.configure(text = f" Jour {self.game.day}")
             self.time_left.configure(text = f"Temps Restant : {int(self.game.daylenth-self.game.tick)}s ")
+
         def switch_tab(self, new_tab : int) -> None:
 
             """
@@ -220,7 +229,7 @@ class UserInterface(ctk.CTk):
                 fg_colors = ["#ada43b" if self.current_tab == i else "#424242" for i in range(3)]
                 hover_colors = ["#d2c646" if self.current_tab == i else "#696969" for i in range(3)]
                 
-                stats_btn = ctk.CTkButton(self.side_bar, command=lambda : self.switch_tab(0), text="Stats", width=256, height=64,
+                stats_btn = ctk.CTkButton(self.side_bar, command=lambda : self.switch_tab(0), text="Pause", width=256, height=64,
                                           fg_color=fg_colors[0], hover_color=hover_colors[0], font=("Arial", 16))
                 stats_btn.place(relx=0.5, rely=0.375, anchor="center")
 
