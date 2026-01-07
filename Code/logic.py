@@ -81,22 +81,22 @@ class Game:
 
         # Éléments du marché
         self.elements = {
-            "stylo": Element(self.player, 5),
+            "stylo": Element(self.player, 2),
             "Bouteille": Element(self.player, 20),
             "Chaise": Element(self.player, 50),
-            "Chaise (Sophistiquée)": Element(self.player, 800),
+            "Chaise (Sophistiquée)": Element(self.player, 80),
             "Samsung 2TM": Element(self.player, 500),
             "Ordinateur Fixe": Element(self.player, 4000),
             "Ordinateur Portatif": Element(self.player, 1500),
             "Ordinateur Quantique": Element(self.player, 3.2),
-            "camionnnn": Element(self.player, 200000),
-            "voiture (Sophistiquée)": Element(self.player, 500000),
+            "camionnnn": Element(self.player, 2000),
+            "voiture (Sophistiquée)": Element(self.player, 5000),
             "Maison": Element(self.player, 800000),
             "The legend of Zelda Souvenir d'Enfance - Matthieu Meriot": Element(self.player, 5),
             "Planètes": Element(self.player, 1e8),
             "gachettes pour manettes": Element(self.player, 36),
             'des touches "cap lock"': Element(self.player, 280),
-            "de pixel": Element(self.player, 700000),
+            "de pixel": Element(self.player, 700),
             "éléments de surprise": Element(self.player, 8e10),
             "Mona Lisa": Element(self.player, 16),
             "la lettre alpha": Element(self.player, 1200),
@@ -110,7 +110,7 @@ class Game:
 
         # Upgrades
         self.upgrades = {
-            "employes": Employes(100, 10, self.player) # Un peu absuser nan les employees ???? TODO
+            "employes": Employes(100, 1, self.player) # Un peu absuser nan les employees ???? TODO
         }
 
         # Regroupement de tous les objets à mettre à jour
