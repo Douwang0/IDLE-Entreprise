@@ -15,6 +15,7 @@ from joueur import Player
 from elements import Element, Kayou, Chemise
 from upgrades import Employes
 from courbe import Courbe
+from events import Events
 
 
 def highscore(new_score=0, filename="highscore.txt"):
@@ -71,6 +72,9 @@ class Game:
         # Élément spécial
         self.kayou = Kayou(self.player, 0.1)
 
+        # Les Events
+        self.event = Events()
+
         # Économie
         self.mps = 0
         self.impots = 0.01
@@ -119,7 +123,7 @@ class Game:
             *self.upgrades.values(),
             self.kayou
         )
-        self.allIterable = self.allcollectables # (*self.allIterable,self.event)
+        self.allIterable = (*self.allcollectables,self.event)
     def elemget(self, elem):
         return self.elements[elem]
     def upgget(self, upg):

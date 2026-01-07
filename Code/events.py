@@ -1,5 +1,6 @@
 from logic import Game
 from upgrades import Employes
+from random import *
 
 class Events:
     def __init__(self,index, dispo:bool, temp, duration, desc, eventtype=[]):
@@ -10,7 +11,8 @@ class Events:
         self.temp2 = [0]
         self.duration = duration
         self.description = desc
-    def action(self, game : Game):
+    def action(self, game : Game, dic):
+        dic_event = dic
         if "kayou+" in self.enventtype:
             game.kayou.pricemodif(self.temp) 
         elif "timodif" in self.enventtype:
@@ -44,7 +46,8 @@ class Events:
         elif "gainparts" in self.enventtype:
             for i in game.elements:
                 game.elements[i].instantget(self.temp)
-    def cancer(self, game : Game):
+    def cancer(self, game : Game,dic):
+        dic_event = dic
         if "timodif" in self.enventtype:
             game.daylenth -= self.temp
         elif "pricemodif" in self.enventtype:
@@ -66,6 +69,8 @@ class EventManager:
     def __init__(self,game):
         self.game = game
         self.event = Events()
+        self.timer = randint(180,240)
+        self.pending_event = []
         self.dic_event = {1 : Events(1, True, 9900, 0, "La lune est percutée par un violent astéroïde, pluie de débris sur Terre : Les kayoux voient leur prix multiplié par 100", ["kayou+"]),
                     2 : Events(2, True, 3, 180, "Cthulhu fait son retour : La nuit tombe durant 3 minutes", ["timodif"]),
                     3 : Events(3, True, -20 ,300, "Macron fait son vingtième mandat : Le taux inflation augmente de 20 % pendant 5 jours", ["pricemodif"]), 
@@ -102,8 +107,14 @@ class EventManager:
                     34 : Events(34, True, 0, 0, "Un employé à lâché une caisse, il faut la réparer (-50 pourcents d'argent)", ["pertemoitierinstant"])}
 
     def active_event(self,event:Events, gui_ref): #app enverra la référence à game
-        event.action(self.game)
+        event.action(self.game,self.dic_event)
         gui_ref.request_event_animation(event.description, 20.0)
-        event.cancer(game_ref)
+        if event.duration != 0:
+            self.pending_event.append[event,event.duration]
+        # event.cancer(self.game,self.dic_event)
     def update(self):
-        pass
+        self.timer -=1
+        if self.timer <= 0:
+            self.timer = randint(180,240)
+            event = choice(self.dic_event)
+            self.active_event(event)
