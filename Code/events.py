@@ -34,7 +34,7 @@ class Events:
         elif "gainsmodif" in self.enventtype:
             game.player.bonusmodif(self.temp[0] / 100)
         elif "aliens" in self.enventtype:
-            game.upgrades["Alien"] = Employes(100,20,game.player)
+            game.upgrades["alien"] = Employes(100,20,game.player)
         elif "newevent" in self.enventtype:
             dic_event[self.temp[1]].dispo = True
         elif "cancevent" in self.enventtype:

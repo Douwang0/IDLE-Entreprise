@@ -84,13 +84,6 @@ class UserInterface(ctk.CTk):
                 self.game_screen.update_text_sidebar(self.game)
                 self.game.update()
 
-            print(
-                self.game.tick,
-                self.game.day,
-                self.game.daylenth,
-                self.game.player.mget()
-            )
-
         self.after(1000, self.game_update)
 
     class __TitleScreen:
@@ -243,8 +236,6 @@ class UserInterface(ctk.CTk):
 
             def setup_stats():
 
-                print("Switched to Stats Frame.")
-
                 self.current_tab = 0
                 self.master.pause = True
                 if self.marketplace != None: self.marketplace.remove_marketplace()
@@ -252,16 +243,12 @@ class UserInterface(ctk.CTk):
             
             def setup_element():
 
-                print("Switched to Element Frame.")
-
                 self.current_tab = 1
                 self.master.pause = False
                 if self.upgrades !=None: self.upgrades.remove_marketplace()
                 self.marketplace.add_marketplace()
             
             def setup_generator():
-
-                print("Switched to Generator Frame.")
 
                 self.current_tab = 2
                 self.master.pause = False
@@ -429,9 +416,7 @@ class UserInterface(ctk.CTk):
                     self.construct_object()
 
                 def construct_object(self):
-
-                    print(self.game_ref.tick)
-                    
+  
                     self.container = ctk.CTkFrame(self.master_container, 870, 620)
                     self.container.place(relx=0.5, rely=0.5, anchor="center")
 
@@ -486,7 +471,6 @@ class UserInterface(ctk.CTk):
                         print("Valeur invalide")
                         return
 
-                    print(f"BUY {amount} x {self.name}")
                     
                     self.game_ref.buy(self.name,"element", amount)
 
@@ -498,7 +482,6 @@ class UserInterface(ctk.CTk):
                         print("Valeur invalide")
                         return
 
-                    print(f"SELL {amount} x {self.name}")
                     # Example:
                     self.game_ref.sell(self.name,"element", amount)
 
@@ -566,8 +549,6 @@ class UserInterface(ctk.CTk):
                     self.game_ref = game_ref
                     self.construct_object()
                 def construct_object(self):
-
-                    print(self.game_ref.tick)
                     
                     image = "Images/Generateur_Employer.png" if self.name == "employes" else 'Images/Elements_Placeholder.jpg'
 
@@ -596,7 +577,13 @@ class UserInterface(ctk.CTk):
                     
                     self.name, self.price, self.qty, self.bonus = name, price, qty, bonus
                     self.label.configure(text=f'Nom : {self.name} \n Prix : {self.price}€ \n Quantitée : {self.qty} \n Bonus : {self.bonus}')
-                    image = "Images\Generateur_Employer.png" if self.name == "employes" else 'Images/Elements_Placeholder.jpg'
+                    image = None
+                    if self.name == "employes":
+                        image = "Images/Generateur_Employer.png"
+                    elif self.name == "alien":
+                        image = "Images/Generateur_Alien.png"
+                    else:
+                        image = 'Images/Elements_Placeholder.jpg'
                     self.image.configure(light_image=Image.open(image),
                                         dark_image=Image.open(image),
                                         size=(400,300))
@@ -611,8 +598,6 @@ class UserInterface(ctk.CTk):
                     except ValueError:
                         print("Valeur invalide")
                         return
-
-                    print(f"BUY {amount} x {self.name}")
                     
                     self.game_ref.buy(self.name,"upgrade", amount)
                 def sell_object(self): pass
