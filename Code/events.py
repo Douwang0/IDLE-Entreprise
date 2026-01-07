@@ -1,5 +1,5 @@
-from logic import Game
-from upgrades import Employes
+from logic import *
+from upgrades import *
 from random import *
 
 class Events:
@@ -46,7 +46,7 @@ class Events:
         elif "gainparts" in self.enventtype:
             for i in game.elements:
                 game.elements[i].instantget(self.temp)
-    def cancer(self, game : Game,dic):
+    def delete(self, game : Game,dic):
         dic_event = dic
         if "timodif" in self.enventtype:
             game.daylenth -= self.temp
@@ -68,15 +68,16 @@ class Events:
 class EventManager:
     def __init__(self,game):
         self.game = game
-        self.event = Events()
-        self.timer = randint(180,240)
+        self.event = None
+        self.timer = 10 #randint(180,240) seul le premier arrive en 10 sec
+        self.gui = None
         self.pending_event = []
         self.dic_event = {1 : Events(1, True, 9900, 0, "La lune est percutée par un violent astéroïde, pluie de débris sur Terre : Les kayoux voient leur prix multiplié par 100", ["kayou+"]),
                     2 : Events(2, True, 3, 180, "Cthulhu fait son retour : La nuit tombe durant 3 minutes", ["timodif"]),
                     3 : Events(3, True, -20 ,300, "Macron fait son vingtième mandat : Le taux inflation augmente de 20 % pendant 5 jours", ["pricemodif"]), 
-                    4 : Events(4, True, 10, 0, "Sébastien Lecornu est promu premier ministre pour la (nb)ième fois : les employés sont plus efficaces de 10 %", ["employrendmodif"]),
+                    4 : Events(4, True, 10, 0, "Sébastien Lecornu est promu premier ministre pour la 227ième fois : les employés sont plus efficaces de 10 %", ["employrendmodif"]),
                     5 : Events(5, True, [0, -50], 60, "Les cavaliers de la mort marchent sur Paris : La demande sur le marché diminue de 50 % pour le jour", ["demmandemodif"]),
-                    6 : Events(6, True, 200, 0, "Pastek, le roi des 11 ciels, donne sa faveur à l'entreprise (nm du joueur): gain instantané de 200 pourcents des gains touchés le jour précédent", ["gainjourinstant"]),
+                    6 : Events(6, True, 200, 0, "Pastek, le roi des 11 ciels, donne sa faveur à l'entreprise : gain instantané de 200 pourcents des gains touchés le jour précédent", ["gainjourinstant"]),
                     7 : Events(7, True, [0.1] , 60, "Une ampoule a grillé chez l'URSAF: payez 10 pourcents d'impôts en plus à la fin de la journée", ["taxmodif"]),
                     8 : Events(8, True, 100, 0, "Restock mondial de ciao Kombucha : les employers travaillent deux fois plus efficacement", ["employrendmodif"]),
                     9 : Events(9, True, [20, 10, 9], 0, "Jesus resucite : Vous gagnez 20 % plus d'argent", ["gainsmodif", "newevent", "cancevent"]),
@@ -107,14 +108,22 @@ class EventManager:
                     34 : Events(34, True, 0, 0, "Un employé à lâché une caisse, il faut la réparer (-50 pourcents d'argent)", ["pertemoitierinstant"])}
 
     def active_event(self,event:Events, gui_ref): #app enverra la référence à game
-        event.action(self.game,self.dic_event)
-        gui_ref.request_event_animation(event.description, 20.0)
-        if event.duration != 0:
-            self.pending_event.append[event,event.duration]
-        # event.cancer(self.game,self.dic_event)
+        print("test_event")
+        try:
+            event.action(self.game,self.dic_event)
+            gui_ref.game_screen.request_event_animation(event.description)
+            if event.duration != 0:
+                self.pending_event.append[event,event.duration]
+        except Exception as e: print(e)
+
     def update(self):
         self.timer -=1
+        for pending in self.pending_event:
+            pending[1] -=1
+            if pending[1] <= 0:
+                pending[0].delete(self.game,self.dic_event)
+                self.pending_event.remove(pending)
         if self.timer <= 0:
             self.timer = randint(180,240)
-            event = choice(self.dic_event)
-            self.active_event(event)
+            event = self.dic_event[randint(1,34)]
+            self.active_event(event,self.gui)

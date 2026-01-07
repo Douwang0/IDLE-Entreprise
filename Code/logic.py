@@ -15,7 +15,7 @@ from joueur import Player
 from elements import Element, Kayou, Chemise
 from upgrades import Employes
 from courbe import Courbe
-from events import Events
+from events import EventManager
 
 
 def highscore(new_score=0, filename="highscore.txt"):
@@ -68,12 +68,15 @@ class Game:
 
         # Joueur
         self.player = Player(self)
+        
+        # GUI
+        self.gui = None
 
         # Élément spécial
         self.kayou = Kayou(self.player, 0.1)
 
         # Les Events
-        self.event = Events()
+        self.event = EventManager(self)
 
         # Économie
         self.mps = 0
@@ -128,6 +131,9 @@ class Game:
         return self.elements[elem]
     def upgget(self, upg):
         return self.upgrades[upg]
+    def set_gui_ref(self,gui):
+        self.gui = gui
+        self.event.gui = gui
     def update(self):
         """
         Met à jour l'état du jeu à chaque tick.
@@ -137,7 +143,7 @@ class Game:
         # Calcul des gains par seconde
         argent_avant = self.player.mget()
 
-        for item in self.allcollectables:
+        for item in self.allIterable:
             item.update()
 
         self.mps = self.player.mget() - argent_avant

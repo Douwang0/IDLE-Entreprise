@@ -5,6 +5,7 @@ class App:
     def __init__(self):
         self.game = Game()
         self.ui = UserInterface()
+        self.game.set_gui_ref(self.ui)
         self.ui.set_game_ref(self.game)
         self.ui.run()
         

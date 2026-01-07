@@ -259,39 +259,56 @@ class UserInterface(ctk.CTk):
 
             update_tab_buttons()
         
-        def request_event_animation(self, event_text : str, time : float) -> None:
-
+        def request_event_animation(self, event_text: str) -> None:
             """
             Initialisation de l'animation d'un event.
             
             event_text: str -> texte de l'event à afficher
-            time: float -> durée de l'animation
             """
 
             def scroll_animation():
-                
                 """
-                Animation de scroll de droite à gauche des events. Supprime l'event après que le temps est écoulé.
+                Animation de scroll de droite à gauche des events.
+                Supprime l'event quand il sort de l'écran.
                 """
 
-                if self.event_time > 0:
-                    self.event_loc[0] -= 3
-                    self.current_event.place(x=self.event_loc[0], rely=0.25, anchor="nw")
-                    self.event_time -= 0.005
-                    self.current_event.after(5, scroll_animation)
-                else:
+                # déplacement
+                self.event_loc[0] -= 3
+                self.current_event.place(x=self.event_loc[0], rely=0.25, anchor="nw")
+
+                # largeur du label + position
+                label_width = self.current_event.winfo_width()
+
+                # quand le label est entièrement hors écran à gauche
+                if self.event_loc[0] + label_width < 0:
                     self.current_event.destroy()
                     self.is_event_on = False
+                else:
+                    self.current_event.after(5, scroll_animation)
 
-            if self.is_event_on: return
-            
+            # si un event est déjà affiché
+            if self.is_event_on:
+                self.current_event.destroy()
+                self.is_event_on = False
+
             self.is_event_on = True
 
-            self.current_event = ctk.CTkLabel(self.event_bar, 28, 28, text=event_text, font=("Arial", 64))
+            self.current_event = ctk.CTkLabel(
+                self.event_bar,
+                text=event_text,
+                font=("Arial", 64)
+            )
+
+            # placement initial hors écran à droite
             self.current_event.place(relx=1.0, rely=0.25, anchor="nw")
 
-            self.event_loc = [self.current_event.winfo_x(),self.current_event.winfo_y()]
-            self.event_time = time
+            # forcer le calcul des tailles
+            self.current_event.update_idletasks()
+
+            self.event_loc = [
+                self.current_event.winfo_x(),
+                self.current_event.winfo_y()
+            ]
 
             scroll_animation()
 
