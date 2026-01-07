@@ -23,6 +23,7 @@ class UserInterface(ctk.CTk):
         self.grid_columnconfigure(0, weight=1)
 
         self.pause = True
+        self.game_ended = False
 
         # Initialisation écran titre
         self.title_screen = self.__TitleScreen(self)
@@ -60,7 +61,9 @@ class UserInterface(ctk.CTk):
         self.game_screen.upgrades.update_elements(self.game.upgrades)
 
     def game_over(self):
+        self.game_ended = True
 
+    def show_end_screen(self):
         self.clear_screen()
 
         f = open("highscore.txt")
@@ -73,7 +76,7 @@ class UserInterface(ctk.CTk):
         GO_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
         hc = ctk.CTkLabel(GO_frame, text=f'Game Over !\n Score : {self.game.day} | High Score : {HC}',width=256, height=64, corner_radius=16, font=("Arial", 64))
-        hc.place(relx=0.5, rely=0.45, anchor="center")
+        hc.place(relx=0.5, rely=0.35, anchor="center")
 
         exit_btn = ctk.CTkButton(GO_frame, command=lambda : self.destroy(), text="End Game", width=256, height=64, fg_color="#40008f", hover_color="#6202d7", font=("Arial", 16))
         exit_btn.place(relx=0.5, rely=0.55, anchor="center")
@@ -82,6 +85,10 @@ class UserInterface(ctk.CTk):
         """
         Fonction permettant la gestion du jeu.
         """
+
+        if self.game_ended :
+            self.show_end_screen()
+            return
 
         if self.game_screen.game_has_begun:
 
