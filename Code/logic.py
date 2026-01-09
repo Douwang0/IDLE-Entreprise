@@ -109,7 +109,7 @@ class Game:
             "la lettre alpha": Element(self.player, 1200),
             "cheveux de Frida Kaloh": Element(self.player, 98000),
             "iphon XX": Element(self.player, 2.5),
-            "chemise de Charles": Chemise(self.player, "tres cher"),
+            "chemise de Charles": Chemise(self.player, "incommensurable"),
             "boeing 732": Element(self.player, 70000),
             "être humain de droite": Element(self.player, 12000),
             "La chaine Vilbrequin": Element(self.player, 5000000),

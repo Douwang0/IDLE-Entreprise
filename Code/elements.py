@@ -97,6 +97,7 @@ class Chemise(Element):
         self.player = player
         self.price = 0
         self.qty = 0
+        self.valeur = value
 
     def update(self):
         """
