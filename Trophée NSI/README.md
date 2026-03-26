@@ -1,32 +1,31 @@
-# Titre du projet
+Far from bankruptcy
 
-Une petite description du projet
+Un simulateur d'entreprise à l'humour très présente, gérez des marchés et des employés très puissants avec des évènements aléatoires.
 
 ## Pour commencer
 
-Entrez ici les instructions pour bien débuter avec votre projet...
+Acheter des objets
+Générer des gains
+Acheter des employés
+Survivre à la difficulté croissante
 
 ### Pré-requis
 
-Ce qu'il est requis pour commencer avec votre projet...
-
-- Programme 1
-- Programme 2
-- etc...
+Installer les dépendances
+il faut que le scaling windows soit a 100%
 
 ### Installation
 
-Les étapes pour installer votre programme....
-
-Dites ce qu'il faut faire...
+Cloner le repository
 
 ## Démarrage
 
-Dites comment faire pour lancer votre projet
+lancer 'main.py' dans la racine du dossier
 
 ## Fabriqué avec
 
-Entrez les programmes/logiciels/ressources que vous avez utilisé pour développer votre projet
+Visual studio code
+Pas d'IA
 
 ## Versions
 
@@ -34,7 +33,10 @@ Listez les versions.
 
 ## Auteurs
 
-Listez les auteurs et les autrices du projet.
+Charles : Lead Programmeur full-stack, Dev GUI
+Giulian : Chef de projet, Back-end
+Lylian : Programmeur full-stack, directeur du departement de l'humour
+Evan : Designer GUI
 
 ## License
 
