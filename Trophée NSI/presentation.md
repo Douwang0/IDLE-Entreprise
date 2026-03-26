@@ -30,14 +30,6 @@ Précisez les informations suivantes :
 
 ## Validation de l’opérationnalité et du fonctionnement 
 
-*Vous détaillez l'état d'avancement de votre projet et les actions menées pour garantir le bon fonctionnement de votre solution => compétences évaluées : capacité à innover, à identifier les difficultés et à proposer des améliorations, capacité à justifier des choix technologiques et à expliquer les concepts.*
-
-
-
-Précisez les informations suivantes :
-- état d’avancement du projet au moment du dépôt,
-- approches mises en œuvre pour vérifier l’absence de bugs,
-- difficultés rencontrées et les solutions apportées.
 - Notre projet fonctionne plutôt bien, les différentes fonctionnalités sont implémentées avec succès, quelques évènements on des problèmes mais dans la grande majorité tout va bien.
 - Il n'y a normalement pas de moyen de casser le jeu, pas de bug majeur qui va le faire crasher donc amusez vous !
 - On a eu pour problème l'organisation du code, l'équilibrage économique, la gestion des événements et le liens entre logique et interface, et finalement on les a réglé en reprenant le code au dernier moment.
