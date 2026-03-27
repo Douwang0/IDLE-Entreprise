@@ -13,8 +13,8 @@ Précisez les informations suivantes :
 
 ## Présentation de l'équipe
 
-- Charles : Lead Programmeur full-stack, Dev GUI -> Toute l'interface graphique -> beaucoup trop de temps
-- Giulian : Chef de projet, Back-end -> Programmation de quelques fonctionnalité et management de l'équipe -> un grand nombre d'heure
+- Charles : Lead Programmeur full-stack, Dev GUI -> Toute l'interface graphique -> Beaucoup d' heures avec un investissement important a la fin du projet car necessaire
+- Giulian : Chef de projet, Back-end -> Programmation de la core logic, integration lien logic-interface, et management de l'équipe -> Beaucoup d'heure egalement, plus d'aide a la fin du projet pour finaliser
 - Lylian : Programmeur full-stack, directeur du departement de l'humour -> Programmation de quelques fonctionnalité et beaucoup d'idée -> quelques heures
 - Evan : Designer GUI -> Tous les graphismes -> quelques heures
 
@@ -35,6 +35,12 @@ Précisez les informations suivantes :
 - On a eu pour problème l'organisation du code, l'équilibrage économique, la gestion des événements et le liens entre logique et interface, et finalement on les a réglé en reprenant le code au dernier moment.
 
 ## Ouverture 
+Giulian =>
+- Le projet aurait pu avoir une meilleure balance economique (les employées etant beaucoup trop fort par exemple), et avoir des impacts plus important des evenement
+- Je trouve le projet assez simple, avec seulement deux (3 si on compte la pause) page de gamelay, malgres tout le jeu reste agreable et tres simpatique a jouer
+- Pour ma part, c'etait la premiere fois que je travaillais en equipe, surtout en commenceant chef de projet donc j'ai l'impression de beaucoup mettre amelioré sur ce point
+- Je trouve que nous avons bien pris en compte l'inclusion dans notre equipe, avec des personnes plus experimentés fesant les fonctionalitées centrale, et le reste de l'equipe fesant des choses tout aussi importantes mais plus accessible. 
+  
 
 *Vous réalisez un bilan personnel sur ce projet et détaillez l'expérience vécue par chaque membre de l'équipe => compétences évaluées : analyse critique, prise de recul, implication dans le projet.*
 
