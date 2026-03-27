@@ -27,10 +27,6 @@ Un simulateur d'entreprise à l'humour très présente, gérez des marchés et d
 - Visual studio code
 - Pas d'IA
 
-## Versions
-
-Listez les versions.
-
 ## Auteurs
 
 - Charles : Lead Programmeur full-stack, Dev GUI
