@@ -37,9 +37,3 @@ Listez les versions.
 - Giulian : Chef de projet, Back-end
 - Lylian : Programmeur full-stack, directeur du departement de l'humour
 - Evan : Designer GUI
-
-## License
-
-Ce projet est sous licence XXX - voir le fichier LICENSE pour plus d'informations.
-
-Ceci est un MODELE_README.
